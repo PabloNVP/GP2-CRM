@@ -9,12 +9,12 @@
 ## Alcance del Sprint
 
 ### Setup del Proyecto
-- Crear proyecto Laravel 12 con Blade + Livewire.
-- Configurar SQLite como base de datos.
-- Configurar estructura de carpetas y convenciones del proyecto.
-- Configurar `.env` de ejemplo y `.env.example`.
-- Migración de tabla `users` con campo `rol` y `estado`.
-- Seeder con usuario administrador por defecto.
+- [x] Crear proyecto Laravel 12 con Blade + Livewire.
+- [x] Configurar SQLite como base de datos.
+- [x] Configurar estructura de carpetas y convenciones del proyecto.
+- [x] Configurar `.env` de ejemplo y `.env.example`.
+- [x] Migración de tabla `users` con campo `rol` y `estado`.
+- [x] Seeder con usuario administrador por defecto.
 
 ### Vistas — Blade + Livewire (Auth)
 - Pantalla de **Login** con campos email y contraseña.
