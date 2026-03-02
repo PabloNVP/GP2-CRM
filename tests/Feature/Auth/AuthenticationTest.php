@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\Auth;
 
+use App\Enums\RoleEnum;
+use App\Enums\StateEnum;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Volt\Volt;
@@ -58,8 +60,8 @@ class AuthenticationTest extends TestCase
     public function test_navigation_menu_can_be_rendered(): void
     {
         $user = User::factory()->create([
-            'role' => 'admin',
-            'state' => 'activo',
+            'role' => RoleEnum::ADMIN,
+            'state' => StateEnum::ACTIVE,
         ]);
 
         $this->actingAs($user);
@@ -91,7 +93,7 @@ class AuthenticationTest extends TestCase
     public function test_users_with_inactive_state_cannot_authenticate(): void
     {
         $user = User::factory()->create([
-            'state' => 'inactivo',
+            'state' => StateEnum::INACTIVE,
         ]);
 
         $component = Volt::test('pages.auth.login')

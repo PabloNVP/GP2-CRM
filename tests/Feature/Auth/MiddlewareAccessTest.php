@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\Auth;
 
+use App\Enums\RoleEnum;
+use App\Enums\StateEnum;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Route;
@@ -13,12 +15,12 @@ class MiddlewareAccessTest extends TestCase
 
     public function test_check_role_allows_access_for_permitted_role(): void
     {
-        Route::middleware(['web', 'auth', 'check.role:admin'])
+        Route::middleware(['web', 'auth', 'check.role:administrador'])
             ->get('/test-role-admin', fn () => response('ok', 200));
 
         $user = User::factory()->create([
-            'role' => 'admin',
-            'state' => 'activo',
+            'role' => RoleEnum::ADMIN,
+            'state' => StateEnum::ACTIVE,
         ]);
 
         $response = $this->actingAs($user)->get('/test-role-admin');
@@ -28,12 +30,12 @@ class MiddlewareAccessTest extends TestCase
 
     public function test_check_role_denies_access_for_non_permitted_role(): void
     {
-        Route::middleware(['web', 'auth', 'check.role:admin'])
+        Route::middleware(['web', 'auth', 'check.role:administrador'])
             ->get('/test-role-denied', fn () => response('ok', 200));
 
         $user = User::factory()->create([
-            'role' => 'cliente',
-            'state' => 'activo',
+            'role' => RoleEnum::CLIENT,
+            'state' => StateEnum::ACTIVE,
         ]);
 
         $response = $this->actingAs($user)->get('/test-role-denied');
@@ -43,12 +45,12 @@ class MiddlewareAccessTest extends TestCase
 
     public function test_check_role_accepts_multiple_roles(): void
     {
-        Route::middleware(['web', 'auth', 'check.role:admin,soporte'])
+        Route::middleware(['web', 'auth', 'check.role:administrador,soporte'])
             ->get('/test-role-multi', fn () => response('ok', 200));
 
         $user = User::factory()->create([
-            'role' => 'soporte',
-            'state' => 'activo',
+            'role' => RoleEnum::SUPPORT,
+            'state' => StateEnum::ACTIVE,
         ]);
 
         $response = $this->actingAs($user)->get('/test-role-multi');
@@ -62,8 +64,8 @@ class MiddlewareAccessTest extends TestCase
             ->get('/test-state-inactive', fn () => response('ok', 200));
 
         $user = User::factory()->create([
-            'role' => 'cliente',
-            'state' => 'inactivo',
+            'role' => RoleEnum::CLIENT,
+            'state' => StateEnum::INACTIVE,
         ]);
 
         $response = $this->actingAs($user)->get('/test-state-inactive');

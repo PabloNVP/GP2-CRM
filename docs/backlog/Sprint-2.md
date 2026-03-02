@@ -85,12 +85,12 @@
 | Criterios de aceptación | Campos: nombre (requerido), apellido (requerido), email (requerido, único, formato válido), teléfono (opcional), empresa (opcional), dirección (opcional). Al guardar exitosamente, redirige al listado con mensaje de confirmación. Si el email ya existe, muestra error en el campo. |
 
 **Checklist de subtareas (SC-03)**
-- [ ] Crear vista/formulario Livewire para alta de cliente.
-- [ ] Definir reglas de validación (requeridos, formato y unicidad de email).
-- [ ] Implementar guardado de cliente en base de datos.
-- [ ] Manejar errores de validación mostrando mensajes por campo.
-- [ ] Redirigir al listado con mensaje flash de confirmación al crear.
-- [ ] Crear test feature para store exitoso y store con email duplicado.
+- [x] Crear vista/formulario Livewire para alta de cliente.
+- [x] Definir reglas de validación (requeridos, formato y unicidad de email).
+- [x] Implementar guardado de cliente en base de datos.
+- [x] Manejar errores de validación mostrando mensajes por campo.
+- [x] Redirigir al listado con mensaje flash de confirmación al crear.
+- [x] Crear test feature para store exitoso y store con email duplicado.
 
 ---
 
