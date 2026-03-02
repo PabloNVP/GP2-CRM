@@ -66,12 +66,12 @@
 | Criterios de aceptación | La búsqueda filtra en tiempo real al escribir (mínimo 3 caracteres). El filtro de estado permite seleccionar "Activo" / "Inactivo" / "Todos". Los filtros se combinan entre sí. |
 
 **Checklist de subtareas (SC-02)**
-- [ ] Agregar input de búsqueda reactiva en el componente de listado.
-- [ ] Implementar filtro por nombre o email con mínimo de 3 caracteres.
-- [ ] Agregar selector de estado con opciones Activo, Inactivo y Todos.
-- [ ] Combinar búsqueda y filtro de estado en una sola consulta.
-- [ ] Reiniciar paginación al cambiar búsqueda o filtro.
-- [ ] Crear tests Livewire para búsqueda, filtro y combinación de filtros.
+- [x] Agregar input de búsqueda reactiva en el componente de listado.
+- [x] Implementar filtro por nombre o email con mínimo de 3 caracteres.
+- [x] Agregar selector de estado con opciones Activo, Inactivo y Todos.
+- [x] Combinar búsqueda y filtro de estado en una sola consulta.
+- [x] Reiniciar paginación al cambiar búsqueda o filtro.
+- [x] Crear tests Livewire para búsqueda, filtro y combinación de filtros.
 
 ---
 
