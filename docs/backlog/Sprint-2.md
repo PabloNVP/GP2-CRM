@@ -45,6 +45,15 @@
 | Estimación | 3 pts |
 | Criterios de aceptación | La tabla muestra nombre, email, teléfono, empresa y estado. Se pagina de a 10 registros. Si no hay clientes, muestra mensaje "No hay clientes registrados". |
 
+**Checklist de subtareas (SC-01)**
+- [x] Crear componente Livewire para listado de clientes.
+- [x] Implementar consulta con paginación de 10 registros.
+- [x] Construir tabla con columnas: nombre, email, teléfono, empresa y estado.
+- [x] Mostrar mensaje "No hay clientes registrados" cuando no existan datos.
+- [x] Definir ruta `GET /clientes` para renderizar el listado.
+- [x] Validar manualmente escenarios con 0, 1, 10 y más de 10 clientes. [Nota: Se creo el comando clients:validate-listing]
+- [x] Crear test de listado con paginación y estado vacío.
+
 ---
 
 ### SC-02: Buscar y filtrar clientes
@@ -55,6 +64,14 @@
 | Prioridad | Alta |
 | Estimación | 2 pts |
 | Criterios de aceptación | La búsqueda filtra en tiempo real al escribir (mínimo 3 caracteres). El filtro de estado permite seleccionar "Activo" / "Inactivo" / "Todos". Los filtros se combinan entre sí. |
+
+**Checklist de subtareas (SC-02)**
+- [ ] Agregar input de búsqueda reactiva en el componente de listado.
+- [ ] Implementar filtro por nombre o email con mínimo de 3 caracteres.
+- [ ] Agregar selector de estado con opciones Activo, Inactivo y Todos.
+- [ ] Combinar búsqueda y filtro de estado en una sola consulta.
+- [ ] Reiniciar paginación al cambiar búsqueda o filtro.
+- [ ] Crear tests Livewire para búsqueda, filtro y combinación de filtros.
 
 ---
 
@@ -67,6 +84,14 @@
 | Estimación | 5 pts |
 | Criterios de aceptación | Campos: nombre (requerido), apellido (requerido), email (requerido, único, formato válido), teléfono (opcional), empresa (opcional), dirección (opcional). Al guardar exitosamente, redirige al listado con mensaje de confirmación. Si el email ya existe, muestra error en el campo. |
 
+**Checklist de subtareas (SC-03)**
+- [ ] Crear vista/formulario Livewire para alta de cliente.
+- [ ] Definir reglas de validación (requeridos, formato y unicidad de email).
+- [ ] Implementar guardado de cliente en base de datos.
+- [ ] Manejar errores de validación mostrando mensajes por campo.
+- [ ] Redirigir al listado con mensaje flash de confirmación al crear.
+- [ ] Crear test feature para store exitoso y store con email duplicado.
+
 ---
 
 ### SC-04: Editar cliente
@@ -77,6 +102,14 @@
 | Prioridad | Alta |
 | Estimación | 3 pts |
 | Criterios de aceptación | Al seleccionar "Editar" en el listado, se abre el formulario con los datos precargados. Se aplican las mismas validaciones que en alta. Al guardar, redirige al listado con mensaje de confirmación. |
+
+**Checklist de subtareas (SC-04)**
+- [ ] Agregar acción "Editar" en el listado de clientes.
+- [ ] Crear vista/formulario de edición reutilizando el formulario de alta.
+- [ ] Cargar datos del cliente seleccionado en el formulario.
+- [ ] Reutilizar validaciones de alta (ajustando unicidad de email al actualizar).
+- [ ] Guardar cambios y redirigir al listado con mensaje flash de confirmación.
+- [ ] Crear test feature para update exitoso y validaciones.
 
 ---
 
@@ -89,6 +122,15 @@
 | Estimación | 2 pts |
 | Criterios de aceptación | Al presionar "Eliminar" se muestra un modal de confirmación. La eliminación es lógica (cambia estado a "Inactivo"). El cliente permanece visible con filtro "Inactivo" pero no aparece en el listado por defecto. |
 
+**Checklist de subtareas (SC-05)**
+- [ ] Agregar acción "Eliminar" en el listado de clientes.
+- [ ] Implementar modal de confirmación de eliminación.
+- [ ] Implementar baja lógica cambiando estado a "Inactivo".
+- [ ] Ajustar listado por defecto para mostrar clientes activos.
+- [ ] Verificar que cliente inactivo aparezca al usar filtro "Inactivo".
+- [ ] Mostrar notificación flash de confirmación al eliminar.
+- [ ] Crear test feature/livewire para flujo de baja lógica.
+
 ---
 
 ### SC-06: Configurar base de datos de clientes
@@ -99,6 +141,14 @@
 | Prioridad | Alta |
 | Estimación | 2 pts |
 | Criterios de aceptación | La migración crea la tabla con todos los campos del modelo Eloquent. Incluye índice único en `email` e índice en `estado`. Soporta SoftDeletes. Se puede ejecutar (`php artisan migrate`) y revertir (`php artisan migrate:rollback`) sin errores. |
+
+**Checklist de subtareas (SC-06)**
+- [ ] Crear migración de tabla `clientes` con campos del modelo.
+- [ ] Definir índice único para `email`.
+- [ ] Definir índice para `estado`.
+- [ ] Incluir `softDeletes()` en la migración.
+- [ ] Ejecutar `php artisan migrate` y verificar creación correcta.
+- [ ] Ejecutar `php artisan migrate:rollback` y verificar reversión sin errores.
 
 ---
 

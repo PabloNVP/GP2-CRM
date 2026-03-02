@@ -45,8 +45,8 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'role' => 'string', # ToDO: Pasar a Enum
-            'state' => 'string', # ToDO: Pasar a Enum
+            'role' => RoleEnum::class,
+            'state' => StateEnum::class,
         ];
     }
 }

@@ -20,8 +20,8 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Administrador',
             'email' => 'admin@crm.com',
-            'role' => 'administrador',
-            'state' => 'activo',
+            'role' => RoleEnum::ADMIN,
+            'state' => StateEnum::ACTIVE,
         ]);
     }
 }
