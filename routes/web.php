@@ -4,7 +4,13 @@ use App\Livewire\Clients\Index as ClientsIndex;
 use App\Livewire\Clients\AddClient;
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'welcome');
+# Si esta logieado, redirige a dashboard, sino a welcome
+Route::get('/', function () {
+    if (auth()->check()) {
+        return redirect()->route('dashboard');
+    }
+    return view('welcome');
+})->name('welcome');
 
 /*Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified', 'state', 'role:administrador'])
@@ -16,13 +22,13 @@ Route::middleware(['auth', 'verified', 'state'])->group(function () {
         ->middleware('role:administrador')
         ->name('dashboard');
 
-    Route::get('clientes', ClientsIndex::class)
+    Route::get('clients', ClientsIndex::class)
         ->name('clients.index');
 
-    Route::get('clientes/create', AddClient::class)
+    Route::get('clients/create', AddClient::class)
         ->name('clients.create');
 
-    Route::get('clientes/{client}/edit', AddClient::class)
+    Route::get('clients/{client}/edit', AddClient::class)
         ->name('clients.edit');
 
     Route::view('profile', 'profile')

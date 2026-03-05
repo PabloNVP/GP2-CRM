@@ -1,4 +1,4 @@
-<div class="space-y-4">
+<div class="flex flex-col gap-4 space-y-12 px-4 py-5 sm:px-6 lg:px-8">
     <h1 class="text-2xl font-semibold text-gray-800">Clientes</h1>
 
     @if (session('message'))
