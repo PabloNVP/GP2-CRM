@@ -1,6 +1,8 @@
 <div>
     <form method="POST" wire:submit.prevent="saveClient" class="space-y-4">
-        <h1 class="text-2xl font-semibold text-gray-800">Agregar Cliente</h1>
+        <h1 class="text-2xl font-semibold text-gray-800">
+            {{ $this->isEditing() ? 'Editar Cliente' : 'Agregar Cliente' }}
+        </h1>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
@@ -93,7 +95,7 @@
 
         <div class="flex justify-end">
             <button type="submit" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 active:bg-indigo-800 focus:outline-none focus:border-indigo-800 focus:ring ring-indigo-300 disabled:opacity-25 transition ease-in-out duration-15">
-                Agregar Cliente
+                {{ $this->isEditing() ? 'Guardar Cambios' : 'Agregar Cliente' }}
             </button>
         </div>
     </form>
