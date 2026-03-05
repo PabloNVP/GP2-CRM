@@ -187,6 +187,90 @@ class ClientsListingTest extends TestCase
             ->assertDontSee('Carlos Activo');
     }
 
+    public function test_it_shows_only_active_clients_by_default(): void
+    {
+        DB::table('clients')->insert([
+            [
+                'firstname' => 'Default',
+                'lastname' => 'Activo',
+                'email' => 'default.activo@example.com',
+                'phone' => '555111',
+                'address' => 'Calle 10',
+                'company' => 'Empresa X',
+                'state' => StateEnum::ACTIVE->value,
+                'created_at' => now(),
+                'updated_at' => now(),
+                'deleted_at' => null,
+            ],
+            [
+                'firstname' => 'Default',
+                'lastname' => 'Inactivo',
+                'email' => 'default.inactivo@example.com',
+                'phone' => '555222',
+                'address' => 'Calle 11',
+                'company' => 'Empresa Y',
+                'state' => StateEnum::INACTIVE->value,
+                'created_at' => now(),
+                'updated_at' => now(),
+                'deleted_at' => null,
+            ],
+        ]);
+
+        Livewire::test(Index::class)
+            ->assertSee('Default Activo')
+            ->assertDontSee('Default Inactivo');
+    }
+
+    public function test_it_deactivates_client_after_confirmation(): void
+    {
+        $clientId = DB::table('clients')->insertGetId([
+            'firstname' => 'Pedro',
+            'lastname' => 'Activo',
+            'email' => 'pedro.activo@example.com',
+            'phone' => '777777',
+            'address' => 'Calle 12',
+            'company' => 'Empresa Z',
+            'state' => StateEnum::ACTIVE->value,
+            'created_at' => now(),
+            'updated_at' => now(),
+            'deleted_at' => null,
+        ]);
+
+        Livewire::test(Index::class)
+            ->call('confirmDeactivate', $clientId)
+            ->assertSet('confirmingDeletion', true)
+            ->call('deactivateClient')
+            ->assertSet('confirmingDeletion', false)
+            ->assertSee('Cliente dado de baja correctamente.');
+
+        $this->assertDatabaseHas('clients', [
+            'id' => $clientId,
+            'state' => StateEnum::INACTIVE->value,
+        ]);
+    }
+
+    public function test_it_lists_deactivated_client_when_inactive_filter_is_used(): void
+    {
+        $clientId = DB::table('clients')->insertGetId([
+            'firstname' => 'Sofia',
+            'lastname' => 'Activa',
+            'email' => 'sofia.activa@example.com',
+            'phone' => '888888',
+            'address' => 'Calle 13',
+            'company' => 'Empresa W',
+            'state' => StateEnum::ACTIVE->value,
+            'created_at' => now(),
+            'updated_at' => now(),
+            'deleted_at' => null,
+        ]);
+
+        Livewire::test(Index::class)
+            ->call('confirmDeactivate', $clientId)
+            ->call('deactivateClient')
+            ->set('stateFilter', StateEnum::INACTIVE->value)
+            ->assertSee('Sofia Activa');
+    }
+
     private function seedClients(int $count): void
     {
         $rows = [];

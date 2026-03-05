@@ -123,13 +123,13 @@
 | Criterios de aceptación | Al presionar "Eliminar" se muestra un modal de confirmación. La eliminación es lógica (cambia estado a "Inactivo"). El cliente permanece visible con filtro "Inactivo" pero no aparece en el listado por defecto. |
 
 **Checklist de subtareas (SC-05)**
-- [ ] Agregar acción "Eliminar" en el listado de clientes.
-- [ ] Implementar modal de confirmación de eliminación.
-- [ ] Implementar baja lógica cambiando estado a "Inactivo".
-- [ ] Ajustar listado por defecto para mostrar clientes activos.
-- [ ] Verificar que cliente inactivo aparezca al usar filtro "Inactivo".
-- [ ] Mostrar notificación flash de confirmación al eliminar.
-- [ ] Crear test feature/livewire para flujo de baja lógica.
+- [x] Agregar acción "Eliminar" en el listado de clientes.
+- [x] Implementar modal de confirmación de eliminación.
+- [x] Implementar baja lógica cambiando estado a "Inactivo".
+- [x] Ajustar listado por defecto para mostrar clientes activos.
+- [x] Verificar que cliente inactivo aparezca al usar filtro "Inactivo".
+- [x] Mostrar notificación flash de confirmación al eliminar.
+- [x] Crear test feature/livewire para flujo de baja lógica.
 
 ---
 
