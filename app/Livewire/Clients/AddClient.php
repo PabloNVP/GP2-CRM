@@ -3,16 +3,36 @@
 namespace App\Livewire\Clients;
 
 use App\Models\Client;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 
 class AddClient extends Component
 {
+    public ?Client $client = null;
+
+    public ?int $clientId = null;
     public string $firstname = '';
     public string $lastname = '';
     public string $email = '';
     public string $phone = '';
     public string $address = '';
     public string $company = '';
+
+    public function mount(?Client $client = null): void
+    {
+        if (! $client || ! $client->exists) {
+            return;
+        }
+
+        $this->client = $client;
+        $this->clientId = $client->id;
+        $this->firstname = $client->firstname;
+        $this->lastname = $client->lastname;
+        $this->email = $client->email;
+        $this->phone = $client->phone ?? '';
+        $this->address = $client->address ?? '';
+        $this->company = $client->company ?? '';
+    }
 
     public function render()
     {
@@ -23,19 +43,31 @@ class AddClient extends Component
     {
         $this->validate();
 
-        $status = Client::query()->create([
+        $payload = [
             'firstname' => $this->firstname,
             'lastname' => $this->lastname,
             'email' => $this->email,
             'phone' => $this->phone,
             'address' => $this->address,
             'company' => $this->company,
-        ]);
+        ];
+
+        if ($this->clientId) {
+            $status = Client::query()->whereKey($this->clientId)->update($payload);
+        } else {
+            $status = Client::query()->create($payload);
+        }
 
         if ($status) {
-            session()->flash('message', 'Cliente agregado exitosamente.');
+            session()->flash(
+                'message',
+                $this->clientId ? 'Cliente actualizado exitosamente.' : 'Cliente agregado exitosamente.'
+            );
         } else {
-            session()->flash('error', 'Hubo un error al agregar el cliente.');
+            session()->flash(
+                'error',
+                $this->clientId ? 'Hubo un error al actualizar el cliente.' : 'Hubo un error al agregar el cliente.'
+            );
         }
 
         return redirect()->route('clients.index');
@@ -46,11 +78,22 @@ class AddClient extends Component
         return [
             'firstname' => ['required', 'string', 'max:255'],
             'lastname' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:clients,email'],
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                Rule::unique('clients', 'email')->ignore($this->clientId),
+            ],
             'phone' => ['nullable', 'string', 'max:255'],
             'address' => ['nullable', 'string'],
             'company' => ['nullable', 'string', 'max:255'],
         ];
+    }
+
+    public function isEditing(): bool
+    {
+        return $this->clientId !== null;
     }
 
     public function messages() : array

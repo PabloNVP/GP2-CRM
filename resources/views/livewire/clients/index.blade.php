@@ -1,6 +1,18 @@
 <div class="space-y-4">
     <h1 class="text-2xl font-semibold text-gray-800">Clientes</h1>
 
+    @if (session('message'))
+        <div class="rounded-md border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
+            {{ session('message') }}
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            {{ session('error') }}
+        </div>
+    @endif
+
     <input
         type="text"
         wire:model.live.debounce.300ms="search"
@@ -27,6 +39,7 @@
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Teléfono</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Empresa</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Estado</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Acciones</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200 bg-white">
@@ -39,6 +52,15 @@
                             <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-700">{{ $client->phone }}</td>
                             <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-700">{{ $client->company }}</td>
                             <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-700">{{ $client->state }}</td>
+                            <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-700">
+                                <a
+                                    href="{{ route('clients.edit', $client) }}"
+                                    wire:navigate
+                                    class="font-medium text-indigo-600 hover:text-indigo-800"
+                                >
+                                    Editar
+                                </a>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
