@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Enums\RoleEnum;
 use Closure;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
@@ -19,13 +18,7 @@ class CheckRole
     {
         $user = $request->user();
 
-        $userRole = $user?->role;
-
-        if ($userRole instanceof RoleEnum) {
-            $userRole = $userRole->value;
-        }
-
-        if (! $user || ! in_array($userRole, $roles, true)) {
+        if (! $user || ! in_array($user->role, $roles, true)) {
             throw new HttpResponseException(response('Unauthorized', 403));
         }
 

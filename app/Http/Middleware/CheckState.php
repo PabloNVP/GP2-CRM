@@ -7,7 +7,6 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
-use App\Enums\StateEnum;
 
 class CheckState
 {
@@ -24,7 +23,7 @@ class CheckState
             throw new HttpResponseException(response('Unauthorized', 403));
         }
 
-        if ($user->state !== StateEnum::ACTIVE) {
+        if ($user->state !== 'activo') {
             Auth::logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();

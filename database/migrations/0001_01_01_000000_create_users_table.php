@@ -3,8 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Enums\RoleEnum;
-use App\Enums\StateEnum;
 
 return new class extends Migration
 {
@@ -19,8 +17,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('role')->default(RoleEnum::CLIENT->value);
-            $table->string('state')->default(StateEnum::ACTIVE->value);
+            $table->string('role')->default('cliente');
+            $table->string('state')->default('activo');
             $table->rememberToken();
             $table->timestamps();
         });
