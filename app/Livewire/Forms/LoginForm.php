@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Forms;
 
+use App\Enums\StateEnum;
 use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Support\Facades\Auth;
@@ -42,7 +43,7 @@ class LoginForm extends Form
             ]);
         }
 
-        if ($user->state !== 'activo') {
+        if ($user->state !== StateEnum::ACTIVE) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
