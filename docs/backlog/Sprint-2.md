@@ -143,12 +143,12 @@
 | Criterios de aceptación | La migración crea la tabla con todos los campos del modelo Eloquent. Incluye índice único en `email` e índice en `estado`. Soporta SoftDeletes. Se puede ejecutar (`php artisan migrate`) y revertir (`php artisan migrate:rollback`) sin errores. |
 
 **Checklist de subtareas (SC-06)**
-- [ ] Crear migración de tabla `clientes` con campos del modelo.
-- [ ] Definir índice único para `email`.
-- [ ] Definir índice para `estado`.
-- [ ] Incluir `softDeletes()` en la migración.
-- [ ] Ejecutar `php artisan migrate` y verificar creación correcta.
-- [ ] Ejecutar `php artisan migrate:rollback` y verificar reversión sin errores.
+- [x] Crear migración de tabla `clientes` con campos del modelo.
+- [x] Definir índice único para `email`.
+- [x] Definir índice para `estado`.
+- [x] Incluir `softDeletes()` en la migración.
+- [x] Ejecutar `php artisan migrate` y verificar creación correcta.
+- [x] Ejecutar `php artisan migrate:rollback` y verificar reversión sin errores.
 
 ---
 

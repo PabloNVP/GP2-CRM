@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->text('address')->nullable();
             $table->string('company')->nullable();
-            $table->string('state')->default(StateEnum::ACTIVE->value);
+            $table->string('state')->default(StateEnum::ACTIVE->value)->index();
             #$table->integer('created_at');
             #$table->integer('updated_at');
             $table->softDeletes();
