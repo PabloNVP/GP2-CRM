@@ -1,10 +1,11 @@
 <?php
 
+use App\Livewire\Clients\AddClient as AddClient;
 use App\Livewire\Clients\Index as ClientsIndex;
-use App\Livewire\Clients\AddClient;
+use App\Livewire\Clients\DeleteClient as DeleteClient;
 use Illuminate\Support\Facades\Route;
 
-# Si esta logieado, redirige a dashboard, sino a welcome
+# Si esta logieado, redirige a home, sino a welcome
 Route::get('/', function () {
     if (auth()->check()) {
         return redirect()->route('dashboard');

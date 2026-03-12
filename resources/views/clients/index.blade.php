@@ -1,34 +1,63 @@
-<div class="flex flex-col gap-4 space-y-12 px-4 py-5 sm:px-6 lg:px-8">
-    <h1 class="text-2xl font-semibold text-gray-800">Clientes</h1>
+@php
+use \App\Enums\StateEnum;
+@endphp
+
+<div class="flex flex-col gap-6 w-full">
+    <div class="flex items-center justify-between bg-white border-r border-slate-200 gap-4 flex-wrap mb-4 px-4 py-4 sm:px-6 lg:px-12">   
+        <div class="flex items-center gap-2"> 
+            <span class="material-symbols-outlined text-4xl filled-icon">
+                person
+            </span>
+            <h1 class="text-4xl font-semibold text-gray-800">Clientes</h1>
+        </div>
+        <span>
+            <a
+                href="{{ route('clients.create') }}"
+                wire:navigate
+                class="inline-flex items-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
+            >
+                Agregar cliente
+            </a>
+        </span>
+    </div>
 
     @if (session('message'))
-        <div class="rounded-md border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
-            {{ session('message') }}
-        </div>
+    <div class="rounded-md border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
+        {{ session('message') }}
+    </div>
     @endif
 
     @if (session('error'))
-        <div class="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-            {{ session('error') }}
-        </div>
+    <div class="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+        {{ session('error') }}
+    </div>
     @endif
 
-    <input
-        type="text"
-        wire:model.live.debounce.300ms="search"
-        placeholder="Buscar por nombre o email..."
-        class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-    />
+    <div class="flex items-center gap-2 justify-between mx-16">
+        <div class="flex items-center gap-2 relative">
+            <span class="material-symbols-outlined rounded-md border-gray-300 shadow-sm">
+                search
+            </span>
+            <input
+                type="text"
+                wire:model.live.debounce.300ms="search"
+                placeholder="Buscar por nombre o email..."
+                class="pr-16 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            />
+        </div>
+        <div class="flex items-center gap-2 relative">
+            <h3 class="text-sm font-medium text-gray-700">Estado: </h3>
+            <select
+                wire:model.live.debounce.300ms="stateFilter" 
+                class="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                <option value="">Todos los estados</option>
+                <option value="{{ StateEnum::ACTIVE->value }}">Activo</option>
+                <option value="{{ StateEnum::INACTIVE->value }}">Inactivo</option>
+            </select>
+        </div>
+    </div>
 
-    <select
-        wire:model.live.debounce.300ms="stateFilter" 
-        class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-        <option value="">Todos los estados</option>
-        <option value="{{ \App\Enums\StateEnum::ACTIVE->value }}">Activo</option>
-        <option value="{{ \App\Enums\StateEnum::INACTIVE->value }}">Inactivo</option>
-    </select>
-
-    <div class="overflow-hidden rounded-lg border border-gray-200 bg-white">
+    <div class="overflow-hidden rounded-lg border border-gray-200 bg-white mx-8">
         <div class="overflow-x-auto">
             @if (!$clients->isEmpty())
             <table class="min-w-full divide-y divide-gray-200">
@@ -60,13 +89,17 @@
                                 >
                                     Editar
                                 </a>
-                                <button
-                                    type="button"
-                                    wire:click="confirmDeactivate({{ $client->id }})"
+                                <a
+                                    href="#"
+                                    wire:click.prevent="$set('isVisible', true)"
                                     class="ml-3 font-medium text-red-600 hover:text-red-800"
                                 >
-                                    Eliminar
-                                </button>
+                                    @if ($client->state === StateEnum::ACTIVE)
+                                        Eliminar
+                                    @else
+                                        Reactivar
+                                    @endif
+                                </a>
                             </td>
                         </tr>
                     @endforeach
@@ -77,33 +110,8 @@
             @endif
         </div>
     </div>
-
-    @if ($confirmingDeletion)
-        <div class="fixed inset-0 z-40 flex items-center justify-center bg-gray-900/60 px-4">
-            <div class="w-full max-w-md rounded-lg bg-white p-6 shadow-xl">
-                <h2 class="text-lg font-semibold text-gray-900">Confirmar eliminacion</h2>
-                <p class="mt-2 text-sm text-gray-600">
-                    {{ 'Se dara de baja al cliente '.($clientToDeactivateName !== '' ? $clientToDeactivateName : 'seleccionado').'. Esta accion lo marcara como inactivo.' }}
-                </p>
-
-                <div class="mt-6 flex justify-end gap-3">
-                    <button
-                        type="button"
-                        wire:click="cancelDeactivate"
-                        class="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-                    >
-                        Cancelar
-                    </button>
-
-                    <button
-                        type="button"
-                        wire:click="deactivateClient"
-                        class="rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700"
-                    >
-                        Confirmar
-                    </button>
-                </div>
-            </div>
-        </div>
+ 
+    @if($isVisible)
+        <livewire:clients.delete-client />
     @endif
 </div>

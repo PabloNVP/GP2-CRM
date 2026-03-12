@@ -1,8 +1,14 @@
+
 <div>
-    <form method="POST" wire:submit.prevent="saveClient" class="space-y-4">
-        <h1 class="text-2xl font-semibold text-gray-800">
-            {{ $this->isEditing() ? 'Editar Cliente' : 'Agregar Cliente' }}
-        </h1>
+    <form method="POST" wire:submit.prevent="saveClient" class="space-y-4 px-4 py-8 sm:px-6 lg:px-12">
+        <div class="flex items-center gap-2 p-2">
+            <a class="material-symbols-outlined text-2xl filled-icon cursor-pointer" wire:navigate href="{{ route('clients.index') }}">
+                arrow_back
+            </a>
+            <h1 class="text-2xl font-semibold text-gray-800">
+                {{ $this->isEditing() ? 'Editar Cliente' : 'Agregar Cliente' }}
+            </h1>
+        </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
