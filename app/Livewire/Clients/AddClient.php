@@ -2,7 +2,9 @@
 
 namespace App\Livewire\Clients;
 
+use App\Livewire\Actions\Clients\UpsertClient;
 use App\Models\Client;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 
@@ -36,10 +38,10 @@ class AddClient extends Component
 
     public function render()
     {
-        return view('livewire.clients.add-client');
+        return view('clients.add-client');
     }
 
-    public function saveClient()
+    public function saveClient(UpsertClient $upsertClient)
     {
         $this->validate();
 
@@ -52,10 +54,12 @@ class AddClient extends Component
             'company' => $this->company,
         ];
 
-        if ($this->clientId) {
-            $status = Client::query()->whereKey($this->clientId)->update($payload);
-        } else {
-            $status = Client::query()->create($payload);
+        try {
+            $status = $upsertClient($payload, $this->clientId);
+        } catch (ModelNotFoundException) {
+            session()->flash('error', 'El cliente seleccionado no existe.');
+
+            return redirect()->route('clients.index');
         }
 
         if ($status) {
@@ -76,8 +80,8 @@ class AddClient extends Component
     public function rules(): array
     {
         return [
-            'firstname' => ['required', 'string', 'max:255'],
-            'lastname' => ['required', 'string', 'max:255'],
+            'firstname' => ['required', 'string', 'regex:/^[\p{L}\s]+$/u', 'max:255'],
+            'lastname' => ['required', 'string', 'regex:/^[\p{L}\s]+$/u', 'max:255'],
             'email' => [
                 'required',
                 'string',
@@ -85,9 +89,9 @@ class AddClient extends Component
                 'max:255',
                 Rule::unique('clients', 'email')->ignore($this->clientId),
             ],
-            'phone' => ['nullable', 'string', 'max:255'],
-            'address' => ['nullable', 'string'],
-            'company' => ['nullable', 'string', 'max:255'],
+            'phone' => ['nullable', 'string', 'regex:/^[\+\d\s\-\(\)]+$/', 'max:255'],
+            'address' => ['nullable', 'ascii', 'string'],
+            'company' => ['nullable', 'ascii', 'string', 'regex:/^[\p{L}\d\s]+$/u', 'max:255'],
         ];
     }
 
@@ -101,24 +105,28 @@ class AddClient extends Component
         return [
             'firstname.required' => 'El campo nombre es obligatorio.',
             'firstname.string' => 'El campo nombre debe ser una cadena de texto.',
+            'firstname.regex' => 'El campo nombre solo puede contener letras y espacios.',
             'firstname.max' => 'El campo nombre no puede tener más de 255 caracteres.',
-            
+
             'lastname.required' => 'El campo apellido es obligatorio.',
             'lastname.string' => 'El campo apellido debe ser una cadena de texto.',
+            'lastname.regex' => 'El campo apellido solo puede contener letras y espacios.',
             'lastname.max' => 'El campo apellido no puede tener más de 255 caracteres.',
-            
+
             'email.required' => 'El campo correo es obligatorio.',
             'email.string' => 'El campo correo debe ser una cadena de texto.',
             'email.email' => 'El correo debe ser una dirección de correo válida.',
             'email.max' => 'El campo correo no puede tener más de 255 caracteres.',
             'email.unique' => 'El correo electrónico ya está registrado.',
-            
+
             'phone.string' => 'El campo teléfono debe ser una cadena de texto.',
             'phone.max' => 'El campo teléfono no puede tener más de 255 caracteres.',
-            
+            'phone.regex' => 'El teléfono solo puede contener números, espacios, guiones, paréntesis y el signo +.',
+
             'address.string' => 'El campo dirección debe ser una cadena de texto.',
-            
+
             'company.string' => 'El campo empresa debe ser una cadena de texto.',
+            'company.regex' => 'El campo empresa solo puede contener letras, números y espacios.',
             'company.max' => 'El campo empresa no puede tener más de 255 caracteres.',
         ];
     }

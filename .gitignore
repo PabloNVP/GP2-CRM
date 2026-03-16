@@ -53,3 +53,23 @@ auth.json
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Ignore IDE and editor specific files
+/.vscode/
+/.idea/
+/.phpstorm.meta.php
+/.phpunit.cache
+/.fleet
+/.github
+/.gitlab-ci.yml
+/.editorconfig
+/.prettierignore
+/.prettierrc
+/.stylelintrc
+/.eslintignore
+/.eslintrc
+/.phpactor.json
+/.phpunit.result.cache
+
+#Temporal
+/lang/

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\StateEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -22,9 +23,6 @@ class Client extends Model
         'address',
         'company',
         'state',
-        'created_at',
-        'updated_at',
-        'deleted_at',
     ];
 
      /**
@@ -46,6 +44,7 @@ class Client extends Model
     protected function casts(): array
     {
         return [
+            'state' => StateEnum::class,
         ];
     }
 }
