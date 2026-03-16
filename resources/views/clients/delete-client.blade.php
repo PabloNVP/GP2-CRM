@@ -1,12 +1,11 @@
 
 <div class="fixed inset-0 z-40 flex items-center justify-center bg-gray-900/60 px-4">
     <div class="w-full max-w-md rounded-lg bg-white p-6 shadow-xl">
-        <h2 class="text-lg font-semibold text-gray-900">Confirmar eliminacion</h2>
+        <h2 class="text-lg font-semibold text-gray-900">
+            {{ $isDelete ? 'Confirmar eliminacion' : 'Confirmar reactivacion' }}
+        </h2>
         <p class="mt-2 text-sm text-gray-600">
-            {{ 'Se dara de baja al cliente '.($clientName !== '' ? 
-                $clientName : 
-                'seleccionado').'. 
-                Esta accion lo marcara como inactivo.' }}
+            {{ 'Se dara de ' . ($isDelete ? 'baja' : 'alta') . ' al cliente ' . $clientName . '. ¿Desea continuar?'}}
         </p>
 
         <div class="mt-6 flex justify-end gap-3">

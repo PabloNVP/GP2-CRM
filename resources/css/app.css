@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Custom styles can be added here */
+.state {
+    @apply border-none py-1 px-2 rounded-2xl;
+}
+
+.state.active{
+    @apply text-green-500 border-green-500 text-sm bg-green-100;
+}
+
+.state.inactive{
+    @apply text-red-500 border-red-500 text-sm bg-red-100;
+}

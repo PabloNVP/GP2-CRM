@@ -80,8 +80,8 @@ class AddClient extends Component
     public function rules(): array
     {
         return [
-            'firstname' => ['required', 'string', 'max:255'],
-            'lastname' => ['required', 'string', 'max:255'],
+            'firstname' => ['required', 'string', 'regex:/^[\p{L}\s]+$/u', 'max:255'],
+            'lastname' => ['required', 'string', 'regex:/^[\p{L}\s]+$/u', 'max:255'],
             'email' => [
                 'required',
                 'string',
@@ -89,9 +89,9 @@ class AddClient extends Component
                 'max:255',
                 Rule::unique('clients', 'email')->ignore($this->clientId),
             ],
-            'phone' => ['nullable', 'string', 'max:255'],
-            'address' => ['nullable', 'string'],
-            'company' => ['nullable', 'string', 'max:255'],
+            'phone' => ['nullable', 'string', 'regex:/^[\+\d\s\-\(\)]+$/', 'max:255'],
+            'address' => ['nullable', 'ascii', 'string'],
+            'company' => ['nullable', 'ascii', 'string', 'regex:/^[\p{L}\d\s]+$/u', 'max:255'],
         ];
     }
 
@@ -105,10 +105,12 @@ class AddClient extends Component
         return [
             'firstname.required' => 'El campo nombre es obligatorio.',
             'firstname.string' => 'El campo nombre debe ser una cadena de texto.',
+            'firstname.regex' => 'El campo nombre solo puede contener letras y espacios.',
             'firstname.max' => 'El campo nombre no puede tener más de 255 caracteres.',
 
             'lastname.required' => 'El campo apellido es obligatorio.',
             'lastname.string' => 'El campo apellido debe ser una cadena de texto.',
+            'lastname.regex' => 'El campo apellido solo puede contener letras y espacios.',
             'lastname.max' => 'El campo apellido no puede tener más de 255 caracteres.',
 
             'email.required' => 'El campo correo es obligatorio.',
@@ -119,10 +121,12 @@ class AddClient extends Component
 
             'phone.string' => 'El campo teléfono debe ser una cadena de texto.',
             'phone.max' => 'El campo teléfono no puede tener más de 255 caracteres.',
+            'phone.regex' => 'El teléfono solo puede contener números, espacios, guiones, paréntesis y el signo +.',
 
             'address.string' => 'El campo dirección debe ser una cadena de texto.',
 
             'company.string' => 'El campo empresa debe ser una cadena de texto.',
+            'company.regex' => 'El campo empresa solo puede contener letras, números y espacios.',
             'company.max' => 'El campo empresa no puede tener más de 255 caracteres.',
         ];
     }

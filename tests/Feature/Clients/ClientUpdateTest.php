@@ -16,9 +16,9 @@ class ClientUpdateTest extends TestCase
     public function test_it_updates_a_client_successfully(): void
     {
         $client = Client::query()->create([
-            'firstname' => 'Juan',
+            'firstname' => 'Juan Carlos',
             'lastname' => 'Perez',
-            'email' => 'juan@example.com',
+            'email' => 'juan.carlos@example.com',
             'phone' => '123456789',
             'address' => 'Calle Falsa 123',
             'company' => 'Acme SA',
@@ -26,11 +26,9 @@ class ClientUpdateTest extends TestCase
         ]);
 
         Livewire::test(AddClient::class, ['client' => $client])
-            ->assertSet('firstname', 'Juan')
+            ->assertSet('firstname', 'Juan Carlos')
             ->assertSet('lastname', 'Perez')
-            ->assertSet('email', 'juan@example.com')
-            ->set('firstname', 'Juan Carlos')
-            ->set('email', 'juan.carlos@example.com')
+            ->assertSet('email', 'juan.carlos@example.com')
             ->call('saveClient')
             ->assertHasNoErrors()
             ->assertRedirect(route('clients.index', absolute: false));

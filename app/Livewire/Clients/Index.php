@@ -6,6 +6,7 @@ use App\Enums\StateEnum;
 use App\Models\Client;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Livewire\Component;
+use Livewire\Attributes\On;
 use Livewire\WithPagination;
 
 class Index extends Component
@@ -18,7 +19,7 @@ class Index extends Component
 
     public function mount(): void
     {
-        $this->isDelete = false;
+        $this->isVisible = false;
     }
     
     public function updatedSearch(): void
@@ -29,6 +30,18 @@ class Index extends Component
     public function updatedStateFilter(): void
     {
         $this->resetPage();
+    }
+
+    #[On('toggle-visible')]
+    public function toggleVisible()
+    {
+        $this->isVisible = !$this->isVisible;
+    }
+
+    #[on('show-message')]
+    public function showMessage(string $message) : void
+    {
+        session()->flash('message', $message);
     }
 
     public function render()

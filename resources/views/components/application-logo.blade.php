@@ -1,6 +1,6 @@
 <div class="flex items-center justify-center lg:justify-start gap-3 mb-4 text-primary">
         
-    <span class="material-symbols-outlined text-5xl font-bold">
+    <span class="material-icons text-5xl font-bold">
         rocket_launch
     </span>
 

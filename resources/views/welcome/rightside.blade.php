@@ -5,7 +5,7 @@
         <!-- Login Form -->
         <div class="flex flex-col gap-4">
             <h1 class="text-2xl text-center">
-                <span class="material-symbols-outlined ">login</span>
+                <span class="material-icons">login</span>
                 {{ __('welcome.Log_account') }}
             </h1>
             <a class="w-full h-12 bg-primary hover:bg-primary/90 text-white font-bold text-xl rounded-lg transition-colors inline-flex items-center justify-center" href="{{ route('login') }}">

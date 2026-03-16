@@ -30,7 +30,7 @@ new class extends Component
 
 <div class="p-6 flex items-center gap-3">
     <div class="size-10 rounded-lg bg-primary flex items-center justify-center text-white p-2">
-        <span class="material-symbols-outlined">rocket_launch</span>
+        <span class="material-icons">rocket_launch</span>
     </div>
     <h1 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">CRM Pro</h1>
 </div>
@@ -42,7 +42,7 @@ new class extends Component
         class="{{ $navItemBase }} {{ $isDashboard ? $navItemActive : $navItemIdle }}"
         @if ($isDashboard) aria-current="page" @endif
     >
-        <span class="material-symbols-outlined">dashboard</span>
+        <span class="material-icons">dashboard</span>
         <span>Dashboard</span>
     </a>
 
@@ -52,26 +52,26 @@ new class extends Component
         class="{{ $navItemBase }} {{ $isClients ? $navItemActive : $navItemIdle }}"
         @if ($isClients) aria-current="page" @endif
     >
-        <span class="material-symbols-outlined">group</span>
+        <span class="material-icons">group</span>
         <span>Clientes</span>
     </a>
     <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
-        <span class="material-symbols-outlined">shopping_cart</span>
+        <span class="material-icons">shopping_cart</span>
         <span>Pedidos</span>
     </a>
     <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
-        <span class="material-symbols-outlined">inventory_2</span>
+        <span class="material-icons">inventory_2</span>
         <span>Productos</span>
     </a>
     <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
-        <span class="material-symbols-outlined">confirmation_number</span>
+        <span class="material-icons">confirmation_number</span>
         <span>Tickets</span>
     </a>
 </nav>
 
 <div class="p-4 border-t border-slate-200 dark:border-slate-800">
     <button class="w-full flex items-center justify-center gap-2 px-4 py-2 bg-primary text-white rounded-lg font-bold hover:bg-primary/90 transition-all">
-        <span class="material-symbols-outlined text-sm">add_chart</span>
+        <span class="material-icons text-sm">add_chart</span>
         <span>New Report</span>
     </button>
 </div>
@@ -93,7 +93,7 @@ new class extends Component
         </p>
     </div>
     
-    <span class="material-symbols-outlined text-slate-400 cursor-pointer" wire:click="logout">
+    <span class="material-icons text-slate-400 cursor-pointer" wire:click="logout">
         exit_to_app
     </span>
 </div>

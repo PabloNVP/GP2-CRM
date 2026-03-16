@@ -31,6 +31,7 @@ class ClientStoreTest extends TestCase
             'lastname' => 'Perez',
             'email' => 'juan.perez@example.com',
             'company' => 'Acme SA',
+            'address' => 'Calle Falsa 123'
         ]);
 
         $this->assertTrue(session()->has('message'));
