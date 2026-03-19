@@ -4,7 +4,7 @@ namespace Tests\Feature\Clients;
 
 use App\Enums\StateEnum;
 use App\Models\Client;
-use App\Livewire\Clients\Index;
+use App\Livewire\Clients\IndexClient as Index;
 use App\Livewire\Clients\DeleteClient;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
