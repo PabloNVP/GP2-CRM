@@ -15,6 +15,44 @@ use App\Enums\StateProductEnum;
         </div>
     </div>
 
+    <div class="flex items-center justify-between mx-16 gap-4 flex-wrap">
+        <div class="flex items-center gap-2 relative">
+            <span class="material-icons">search</span>
+            <input
+                type="text"
+                wire:model.live.debounce.300ms="search"
+                placeholder="Buscar por nombre..."
+                class="pr-16 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            />
+        </div>
+
+        <div class="flex items-center gap-2">
+            <h3 class="text-sm font-medium text-gray-700">Categoria:</h3>
+            <select
+                wire:model.live.debounce.300ms="categoryFilter"
+                class="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            >
+                <option value="">Todas</option>
+                @foreach ($categories as $category)
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="flex items-center gap-2">
+            <h3 class="text-sm font-medium text-gray-700">Estado:</h3>
+            <select
+                wire:model.live.debounce.300ms="statusFilter"
+                class="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            >
+                <option value="">Todos</option>
+                @foreach ($statusOptions as $statusOption)
+                    <option value="{{ $statusOption->value }}">{{ $statusOption->value }}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+
     <div class="overflow-hidden rounded-lg border border-gray-200 bg-white mx-8">
         <div class="overflow-x-auto">
             @if (!$products->isEmpty())
@@ -22,7 +60,6 @@ use App\Enums\StateProductEnum;
                     <thead class="bg-gray-50">
                         <tr>
                             <th scope="col" class="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-500">Nombre</th>
-                            <th scope="col" class="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-500">Version</th>
                             <th scope="col" class="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-500">Categoria</th>
                             <th scope="col" class="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-500">Estado</th>
                         </tr>
@@ -36,9 +73,6 @@ use App\Enums\StateProductEnum;
                             @endphp
                             <tr>
                                 <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-900 text-center">{{ $product->name }}</td>
-                                <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-700 text-center">
-                                    {{ $product->version ?? '-' }}
-                                </td>
                                 <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-700 text-center">
                                     {{ $product->category?->name ?? '-' }}
                                 </td>

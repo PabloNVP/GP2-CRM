@@ -8,6 +8,7 @@ enum StateProductEnum : string
 {
     use HasEnumHelpers;
 
-    case AVAILABLE = 'available';
-    case NOTAVAILABLE = 'not_available';
+    case AVAILABLE = 'Disponible';
+    case OUT_OF_STOCK = 'Sin stock';
+    case DISCONTINUED = 'Descontinuado';
 }
