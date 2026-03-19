@@ -5,8 +5,12 @@
                 arrow_back
             </a>
             <div class="flex flex-col gap-1">
-                <h1 class="text-4xl font-semibold text-gray-800">Agregar Producto</h1>
-                <p class="text-sm text-gray-500">Registra un nuevo producto en el catálogo.</p>
+                <h1 class="text-4xl font-semibold text-gray-800">
+                    {{ $this->isEditing() ? 'Editar Producto' : 'Agregar Producto' }}
+                </h1>
+                <p class="text-sm text-gray-500">
+                    {{ $this->isEditing() ? 'Modifica los datos del producto seleccionado.' : 'Registra un nuevo producto en el catálogo.' }}
+                </p>
             </div>
         </div>
     </div>
@@ -61,7 +65,7 @@
 
         <div class="flex justify-end">
             <button type="submit" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 active:bg-indigo-800 focus:outline-none focus:border-indigo-800 focus:ring ring-indigo-300 disabled:opacity-25 transition ease-in-out duration-15">
-                Agregar Producto
+                {{ $this->isEditing() ? 'Guardar Cambios' : 'Agregar Producto' }}
             </button>
         </div>
     </form>

@@ -4,14 +4,32 @@ namespace App\Livewire\Products;
 
 use App\Livewire\Actions\Products\UpsertProduct;
 use App\Models\Category;
+use App\Models\Product;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 
 class AddProduct extends Component
 {
+    public ?Product $product = null;
+
+    public ?int $productId = null;
     public string $name = '';
     public string $description = '';
     public string $categoryId = '';
+
+    public function mount(?Product $product = null): void
+    {
+        if (! $product || ! $product->exists) {
+            return;
+        }
+
+        $this->product = $product;
+        $this->productId = $product->id;
+        $this->name = $product->name;
+        $this->description = $product->description ?? '';
+        $this->categoryId = (string) $product->category_id;
+    }
 
     public function render()
     {
@@ -35,12 +53,24 @@ class AddProduct extends Component
             'category_id' => (int) $validated['categoryId'],
         ];
 
-        $status = $upsertProduct($payload);
+        try {
+            $status = $upsertProduct($payload, $this->productId);
+        } catch (ModelNotFoundException) {
+            session()->flash('error', 'El producto seleccionado no existe.');
+
+            return redirect()->route('products.index');
+        }
 
         if ($status) {
-            session()->flash('message', 'Producto agregado exitosamente.');
+            session()->flash(
+                'message',
+                $this->isEditing() ? 'Producto actualizado exitosamente.' : 'Producto agregado exitosamente.'
+            );
         } else {
-            session()->flash('error', 'Hubo un error al agregar el producto.');
+            session()->flash(
+                'error',
+                $this->isEditing() ? 'Hubo un error al actualizar el producto.' : 'Hubo un error al agregar el producto.'
+            );
         }
 
         return redirect()->route('products.index');
@@ -55,6 +85,7 @@ class AddProduct extends Component
                 'string',
                 'max:255',
                 Rule::unique('products', 'name')
+                    ->ignore($this->productId)
                     ->where(fn ($query) => $query
                         ->where('category_id', (int) $this->categoryId)
                         ->whereNull('deleted_at')
@@ -62,6 +93,11 @@ class AddProduct extends Component
             ],
             'description' => ['nullable', 'string'],
         ];
+    }
+
+    public function isEditing(): bool
+    {
+        return $this->productId !== null;
     }
 
     public function messages(): array

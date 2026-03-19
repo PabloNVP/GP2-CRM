@@ -83,6 +83,7 @@ use App\Enums\StateProductEnum;
                             <th scope="col" class="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-500">Nombre</th>
                             <th scope="col" class="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-500">Categoria</th>
                             <th scope="col" class="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-500">Estado</th>
+                            <th scope="col" class="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-500">Acciones</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200 bg-white">
@@ -101,6 +102,15 @@ use App\Enums\StateProductEnum;
                                     <span class="inline-flex rounded-full px-2 py-1 text-xs font-semibold {{ $status === StateProductEnum::AVAILABLE->value ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700' }}">
                                         {{ ucfirst($status) }}
                                     </span>
+                                </td>
+                                <td class="whitespace-nowrap px-6 py-4 text-sm text-center">
+                                    <a
+                                        href="{{ route('products.edit', $product) }}"
+                                        wire:navigate
+                                        class="inline-flex items-center rounded-md border border-indigo-200 px-3 py-1 text-xs font-medium text-indigo-700 hover:bg-indigo-50"
+                                    >
+                                        Editar
+                                    </a>
                                 </td>
                             </tr>
                         @endforeach

@@ -117,12 +117,12 @@
 | Criterios de aceptación | Al seleccionar "Editar" en el listado, se abre el formulario con los datos precargados. Se aplican las mismas validaciones que en alta. Al guardar, redirige al listado con mensaje de confirmación. |
 
 **Checklist de subtareas (SC-04)**
-- [ ] Agregar acción "Editar" en el listado de productos.
-- [ ] Crear vista/formulario de edición reutilizando formulario de alta.
-- [ ] Cargar datos del producto seleccionado en el formulario.
-- [ ] Reutilizar validaciones de alta ajustando unicidad al actualizar.
-- [ ] Guardar cambios y redirigir al listado con mensaje flash de confirmación.
-- [ ] Crear test feature para update exitoso y validaciones.
+- [x] Agregar acción "Editar" en el listado de productos.
+- [x] Crear vista/formulario de edición reutilizando formulario de alta.
+- [x] Cargar datos del producto seleccionado en el formulario.
+- [x] Reutilizar validaciones de alta ajustando unicidad al actualizar.
+- [x] Guardar cambios y redirigir al listado con mensaje flash de confirmación.
+- [x] Crear test feature para update exitoso y validaciones.
 
 ---
 

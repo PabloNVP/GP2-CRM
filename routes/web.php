@@ -31,6 +31,9 @@ Route::middleware(['auth', 'verified', 'state'])->group(function () {
     Route::get('products/create', AddProduct::class)
         ->name('products.create');
 
+    Route::get('products/{product}/edit', AddProduct::class)
+        ->name('products.edit');
+
     Route::get('clients', ClientsIndex::class)
         ->name('clients.index');
 
