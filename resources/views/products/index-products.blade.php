@@ -13,7 +13,28 @@ use App\Enums\StateProductEnum;
                 <p class="text-sm text-gray-500">Listado general del catalogo de productos.</p>
             </div>
         </div>
+        <span>
+            <a
+                href="{{ route('products.create') }}"
+                wire:navigate
+                class="inline-flex items-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
+            >
+                Agregar producto
+            </a>
+        </span>
     </div>
+
+    @if (session('message'))
+        <div class="rounded-md border border-green-200 bg-green-50 px-6 py-4 mx-8 text-sm text-green-700">
+            {{ session('message') }}
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="rounded-md border border-red-200 bg-red-50 px-6 py-4 mx-8 text-sm text-red-700">
+            {{ session('error') }}
+        </div>
+    @endif
 
     <div class="flex items-center justify-between mx-16 gap-4 flex-wrap">
         <div class="flex items-center gap-2 relative">

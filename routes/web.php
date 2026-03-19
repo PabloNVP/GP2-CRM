@@ -1,8 +1,10 @@
 <?php
 
 use App\Livewire\Clients\AddClient as AddClient;
-use App\Livewire\Clients\Index as ClientsIndex;
+use App\Livewire\Clients\IndexClient as ClientsIndex;
 use App\Livewire\Clients\DeleteClient as DeleteClient;
+use App\Livewire\Products\AddProduct;
+use App\Livewire\Products\IndexProducts as IndexProduct;
 use Illuminate\Support\Facades\Route;
 
 # Si esta logieado, redirige a home, sino a welcome
@@ -22,6 +24,12 @@ Route::middleware(['auth', 'verified', 'state'])->group(function () {
     Route::view('dashboard', 'dashboard')
         ->middleware('role:administrador')
         ->name('dashboard');
+
+    Route::get('products', IndexProduct::class)
+        ->name('products.index');
+
+    Route::get('products/create', AddProduct::class)
+        ->name('products.create');
 
     Route::get('clients', ClientsIndex::class)
         ->name('clients.index');

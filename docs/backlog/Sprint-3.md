@@ -23,7 +23,7 @@
 - Notificaciones flash de éxito/error.
 
 ### Backend - Laravel (Product + TipoCategoria)
-- **Modelo Eloquent** `Product` con campos: id, tipo_categoria_id, nombre, descripcion, version, estado, created_at, updated_at, deleted_at (SoftDeletes).
+- **Modelo Eloquent** `Product` con campos: id, tipo_categoria_id, nombre, descripcion, estado, created_at, updated_at, deleted_at (SoftDeletes).
 - **Modelo Eloquent** `TipoCategoria` con campos: id, nombre, descripcion, estado, created_at, updated_at, deleted_at (SoftDeletes).
 - **Migración** de creación de tabla `products` en SQLite.
 - **Migración** de creación de tabla `tipos_categoria` en SQLite.
@@ -75,35 +75,35 @@
 |---|---|
 | Prioridad | Alta |
 | Estimación | 2 pts |
-| Criterios de aceptación | La búsqueda filtra en tiempo real al escribir (mínimo 3 caracteres). El filtro de estado permite "Activo" / "Inactivo" / "Todos". El filtro de categoría permite seleccionar una categoría o "Todas". Los filtros se combinan entre sí. |
+| Criterios de aceptación | La búsqueda filtra en tiempo real al escribir (mínimo 3 caracteres). El filtro de estado permite "available" / "out_of_stock" / "discontinued". El filtro de categoría permite seleccionar una categoría o "Todas". Los filtros se combinan entre sí. |
 
 **Checklist de subtareas (SC-02)**
-- [ ] Agregar input de búsqueda reactiva en el listado de productos.
-- [ ] Implementar filtro por nombre y versión con mínimo de 3 caracteres.
-- [ ] Agregar selector de categoría con opción "Todas".
-- [ ] Agregar selector de estado con opciones Activo, Inactivo y Todos.
-- [ ] Combinar búsqueda y filtros en una sola consulta.
-- [ ] Reiniciar paginación al cambiar búsqueda o filtros.
-- [ ] Crear tests Livewire para búsqueda, filtro y combinación de filtros.
+- [x] Agregar input de búsqueda reactiva en el listado de productos.
+- [x] Implementar filtro por nombre con mínimo de 3 caracteres.
+- [x] Agregar selector de categoría con opción "Todas".
+- [x] Agregar selector de estado con opciones Activo, Inactivo y Todos.
+- [x] Combinar búsqueda y filtros en una sola consulta.
+- [x] Reiniciar paginación al cambiar búsqueda o filtros.
+- [x] Crear tests Livewire para búsqueda, filtro y combinación de filtros.
 
 ---
 
-### SC-03: Crear producto
+### SC-03: Agregar producto
 **Como** comercial, **quiero** registrar un nuevo producto **para** incorporarlo al catálogo.
 
 | Campo | Detalle |
 |---|---|
 | Prioridad | Alta |
 | Estimación | 5 pts |
-| Criterios de aceptación | Campos: categoría (requerido), nombre (requerido), descripción (opcional), versión (opcional). Al guardar exitosamente, redirige al listado con mensaje de confirmación. El nombre debe ser único por categoría. |
+| Criterios de aceptación | Campos: categoría (requerido), nombre (requerido), descripción (opcional). Al guardar exitosamente, redirige al listado con mensaje de confirmación. El nombre debe ser único por categoría. |
 
 **Checklist de subtareas (SC-03)**
-- [ ] Crear vista/formulario Livewire para alta de producto.
-- [ ] Definir reglas de validación (requeridos y unicidad nombre por categoría).
-- [ ] Implementar guardado de producto en base de datos.
-- [ ] Manejar errores de validación mostrando mensajes por campo.
-- [ ] Redirigir al listado con mensaje flash de confirmación al crear.
-- [ ] Crear test feature para store exitoso y store con validación fallida.
+- [x] Crear vista/formulario Livewire para alta de producto.
+- [x] Definir reglas de validación (requeridos y unicidad nombre por categoría).
+- [x] Implementar guardado de producto en base de datos.
+- [x] Manejar errores de validación mostrando mensajes por campo.
+- [x] Redirigir al listado con mensaje flash de confirmación al crear.
+- [x] Crear test feature para store exitoso y store con validación fallida.
 
 ---
 
