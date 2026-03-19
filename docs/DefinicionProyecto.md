@@ -9,7 +9,7 @@ Construir una aplicación web que permita gestionar y administrar el negocio de 
 | Módulo | Descripción |
 |---|---|
 | Gestión de Clientes | ABM de clientes y su información de contacto. |
-| Gestión de Productos | ABM de productos y sus tipos de licencias. |
+| Gestión de Productos | ABM de productos y sus tipos de categoría. |
 | Gestión de Soporte Técnico | Visualizar y responder tickets de soporte de los clientes. |
 | Gestión de Pedidos | Visualizar los pedidos realizados por clientes y su facturación. |
 
@@ -89,7 +89,7 @@ La cantidad de errores debe ser lo más pequeña posible para no entorpecer las 
 
 ### Funcionales
 - ABM completo de clientes con información de contacto.
-- ABM completo de productos con tipos de licencias.
+- ABM completo de productos y tipos de categoría.
 - Gestión de pedidos con seguimiento de estados.
 - Gestión de tickets de soporte técnico.
 - Consultas y filtros sobre todas las entidades.

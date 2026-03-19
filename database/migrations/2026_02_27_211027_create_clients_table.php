@@ -12,7 +12,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('clients', function (Blueprint $table) {
+        Schema::create('clients', function (Blueprint $table): void {
             $table->id();
             $table->string('firstname');
             $table->string('lastname');
@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->text('address')->nullable();
             $table->string('company')->nullable();
-            $table->string('state')->default(StateEnum::ACTIVE->value)->index();
+            $table->enum('state', StateEnum::getDatabaseValues())->default(StateEnum::getDefaultValue())->index();
             #$table->integer('created_at');
             #$table->integer('updated_at');
             $table->softDeletes();
