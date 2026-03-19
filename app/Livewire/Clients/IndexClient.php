@@ -8,8 +8,9 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Livewire\Component;
 use Livewire\Attributes\On;
 use Livewire\WithPagination;
+use App\Livewire\Actions\Clients\ListeringClient;
 
-class Index extends Component
+class IndexClient extends Component
 {
     use WithPagination;
 
@@ -21,13 +22,13 @@ class Index extends Component
     {
         $this->isVisible = false;
     }
-    
+
     public function updatedSearch(): void
     {
         $this->resetPage();
     }
 
-    public function updatedStateFilter(): void
+    public function updatedstateFilter(): void
     {
         $this->resetPage();
     }
@@ -44,27 +45,11 @@ class Index extends Component
         session()->flash('message', $message);
     }
 
-    public function render()
+    public function render(ListeringClient $listeringClient)
     {
-        $query = Client::query()->orderByDesc('id');
+        $clients = $listeringClient($this->stateFilter, $this->search);
 
-        if ($this->stateFilter !== '') {
-            $query->where('state', $this->stateFilter);
-        }
-
-        $search = trim($this->search);
-
-        if (mb_strlen($search) >= 3) {
-            $query->where(function ($subQuery) use ($search): void {
-                $subQuery->where('firstname', 'like', "%{$search}%")
-                    ->orWhere('lastname', 'like', "%{$search}%")
-                    ->orWhere('email', 'like', "%{$search}%");
-            });
-        }
-
-        $clients = $query->paginate(10);
-
-        return view('clients.index', [
+        return view('clients.index-client', [
             'clients' => $clients,
         ]);
     }

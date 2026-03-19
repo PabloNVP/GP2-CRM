@@ -20,6 +20,7 @@ new class extends Component
     $isDashboard = request()->routeIs('dashboard');
     $isClients = request()->routeIs('clients.*');
     $isProfile = request()->routeIs('profile');
+    $isProducts = request()->routeIs('products.*');
 
     $navItemBase = 'flex items-center gap-3 px-3 py-2 rounded-lg transition-colors';
     $navItemActive = 'bg-primary/10 text-primary font-semibold';
@@ -55,13 +56,19 @@ new class extends Component
         <span class="material-icons">group</span>
         <span>Clientes</span>
     </a>
+
+    <a 
+        href="{{ route('products.index') }}"
+        wire:navigate
+        class="{{ $navItemBase }} {{ $isProducts ? $navItemActive : $navItemIdle }}"
+        @if ($isProducts) aria-current="page" @endif
+    >
+        <span class="material-icons">inventory_2</span>
+        <span>Productos</span>
+    </a>
     <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
         <span class="material-icons">shopping_cart</span>
         <span>Pedidos</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
-        <span class="material-icons">inventory_2</span>
-        <span>Productos</span>
     </a>
     <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
         <span class="material-icons">confirmation_number</span>

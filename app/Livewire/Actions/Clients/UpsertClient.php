@@ -5,7 +5,7 @@ namespace App\Livewire\Actions\Clients;
 use App\Models\Client;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class UpsertClient
+final readonly class UpsertClient
 {
     /**
      * Crea o actualiza un cliente específico.
