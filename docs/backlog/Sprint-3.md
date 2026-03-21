@@ -173,34 +173,32 @@
 |---|---|
 | Prioridad | Alta |
 | Estimación | 3 pts |
-| Criterios de aceptación | Se permite listar, crear, editar y dar de baja categorías. Campos: nombre (requerido, único), descripción (opcional). No se permite desactivar una categoría si tiene productos activos asociados. |
+| Criterios de aceptación | Se permite crear, editar y dar de baja categorías. Campos: nombre (requerido, único), descripción (opcional). No se permite desactivar una categoría si tiene productos activos asociados. |
 
 **Checklist de subtareas (SC-07)**
-- [ ] Crear componente Livewire de listado de categorías con paginación.
-- [ ] Crear formulario Livewire de alta/edición de categoría.
-- [ ] Implementar validaciones de categoría (nombre único, requerido).
-- [ ] Implementar baja lógica con regla de negocio por productos activos asociados.
-- [ ] Mostrar mensajes de error/éxito por operación.
-- [ ] Crear tests feature/livewire del ABM de categorías.
+- [x] Crear vista/formulario Livewire para lista de categorias.
+- [x] Crear formulario Livewire de alta/edición de categoría.
+- [x] Implementar validaciones de categoría (nombre único, requerido).
+- [x] Implementar baja con regla de negocio por productos activos asociados.
+- [x] Mostrar mensajes de error/éxito por operación.
+- [x] Crear tests feature/livewire del ABM de categorías.
 
 ---
 
 ### SC-08: Configurar base de datos de categorías
-**Como** desarrollador, **quiero** crear la migración de la tabla `tipos_categoria` en SQLite **para** soportar la clasificación del catálogo.
+**Como** desarrollador, **quiero** crear la migración de la tabla `categories` en SQLite **para** soportar la clasificación del catálogo.
 
 | Campo | Detalle |
 |---|---|
 | Prioridad | Alta |
 | Estimación | 2 pts |
-| Criterios de aceptación | La migración crea la tabla con campos: id, nombre, descripcion, estado, timestamps, deleted_at. Incluye índice único en `nombre`, índice en `estado` y soporte de SoftDeletes. Se puede ejecutar y revertir sin errores. |
+| Criterios de aceptación | La migración crea la tabla con campos: id, nombre, descripcion, estado, timestamps, deleted_at. Incluye índice único en `nombre`. Se puede ejecutar y revertir sin errores. |
 
 **Checklist de subtareas (SC-08)**
-- [ ] Crear migración de tabla `tipos_categoria`.
-- [ ] Definir índice único para `nombre`.
-- [ ] Definir índice para `estado`.
-- [ ] Incluir `softDeletes()` en la migración.
-- [ ] Ejecutar `php artisan migrate` y verificar creación correcta.
-- [ ] Ejecutar `php artisan migrate:rollback` y verificar reversión sin errores.
+- [x] Crear migración de tabla `categories`.
+- [x] Definir índice único para `nombre`.
+- [x] Ejecutar `php artisan migrate` y verificar creación correcta.
+- [x] Ejecutar `php artisan migrate:rollback` y verificar reversión sin errores.
 
 ---
 

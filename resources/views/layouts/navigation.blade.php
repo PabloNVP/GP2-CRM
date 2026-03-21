@@ -21,6 +21,7 @@ new class extends Component
     $isClients = request()->routeIs('clients.*');
     $isProfile = request()->routeIs('profile');
     $isProducts = request()->routeIs('products.*');
+    $isCategories = request()->routeIs('categories.*');
 
     $navItemBase = 'flex items-center gap-3 px-3 py-2 rounded-lg transition-colors';
     $navItemActive = 'bg-primary/10 text-primary font-semibold';
@@ -66,14 +67,29 @@ new class extends Component
         <span class="material-icons">inventory_2</span>
         <span>Productos</span>
     </a>
+
+    @if ($isProducts || $isCategories)
+    <a
+        href="{{ route('categories.index') }}"
+        wire:navigate
+        class="{{ $navItemBase }} {{ $isCategories ? $navItemActive : $navItemIdle }}"
+        @if ($isCategories) aria-current="page" @endif
+    >
+        <span class="material-icons">category</span>
+        <span>Categorías</span>
+    </a>
+    @endif
+
     <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
         <span class="material-icons">shopping_cart</span>
         <span>Pedidos</span>
     </a>
+
     <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
         <span class="material-icons">confirmation_number</span>
         <span>Tickets</span>
     </a>
+    
 </nav>
 
 <div class="p-4 border-t border-slate-200 dark:border-slate-800">
