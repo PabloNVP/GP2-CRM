@@ -22,7 +22,6 @@ class Product extends Model
         'stock',
         'status',
         'category_id',
-        //'tipo_categoria_id',
     ];
 
      /**

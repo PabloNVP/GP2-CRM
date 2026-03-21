@@ -153,16 +153,16 @@
 |---|---|
 | Prioridad | Alta |
 | Estimación | 2 pts |
-| Criterios de aceptación | La migración crea la tabla con todos los campos del modelo Product. Incluye FK a `tipos_categoria`, índice compuesto para unicidad (`tipo_categoria_id`, `nombre`), índice en `estado` y soporte de SoftDeletes. Se puede ejecutar (`php artisan migrate`) y revertir (`php artisan migrate:rollback`) sin errores. |
+| Criterios de aceptación | La migración crea la tabla con todos los campos del modelo Product. Incluye FK a `categoria_producto`, índice compuesto para unicidad (`categoria_id`, `nombre`), índice en `estado` y soporte de SoftDeletes. Se puede ejecutar (`php artisan migrate`) y revertir (`php artisan migrate:rollback`) sin errores. |
 
 **Checklist de subtareas (SC-06)**
-- [ ] Crear migración de tabla `products` con campos del modelo.
-- [ ] Definir FK a `tipos_categoria`.
-- [ ] Definir índice único compuesto (`tipo_categoria_id`, `nombre`).
-- [ ] Definir índice para `estado`.
-- [ ] Incluir `softDeletes()` en la migración.
-- [ ] Ejecutar `php artisan migrate` y verificar creación correcta.
-- [ ] Ejecutar `php artisan migrate:rollback` y verificar reversión sin errores.
+- [x] Crear migración de tabla `products` con campos del modelo.
+- [x] Definir FK a `categoria`.
+- [x] Definir índice único compuesto (`categoria_id`, `nombre`).
+- [x] Definir índice para `estado`.
+- [x] Incluir `softDeletes()` en la migración.
+- [x] Ejecutar `php artisan migrate` y verificar creación correcta.
+- [x] Ejecutar `php artisan migrate:rollback` y verificar reversión sin errores.
 
 ---
 
@@ -173,7 +173,7 @@
 |---|---|
 | Prioridad | Alta |
 | Estimación | 3 pts |
-| Criterios de aceptación | Se permite listar, crear, editar y dar de baja lógica categorías. Campos: nombre (requerido, único), descripción (opcional). No se permite desactivar una categoría si tiene productos activos asociados. |
+| Criterios de aceptación | Se permite listar, crear, editar y dar de baja categorías. Campos: nombre (requerido, único), descripción (opcional). No se permite desactivar una categoría si tiene productos activos asociados. |
 
 **Checklist de subtareas (SC-07)**
 - [ ] Crear componente Livewire de listado de categorías con paginación.

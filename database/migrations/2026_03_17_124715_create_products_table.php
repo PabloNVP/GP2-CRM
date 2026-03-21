@@ -22,6 +22,8 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->integer('stock')->default(0);
             $table->enum('status', StateProductEnum::getDatabaseValues())->default(StateProductEnum::getDefaultValue());
+            $table->unique(['category_id', 'name']);
+            $table->index('status');
             $table->timestamps();
             $table->softDeletes();
         });
