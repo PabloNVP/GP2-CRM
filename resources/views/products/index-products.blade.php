@@ -111,6 +111,13 @@ use App\Enums\StateProductEnum;
                                     >
                                         Editar
                                     </a>
+                                    <button
+                                        type="button"
+                                        wire:click='openDeactivateModal({{ $product->id }}, @json($product->name))'
+                                        class="ml-2 inline-flex items-center rounded-md border border-red-200 px-3 py-1 text-xs font-medium text-red-700 hover:bg-red-50"
+                                    >
+                                        Eliminar
+                                    </button>
                                 </td>
                             </tr>
                         @endforeach
@@ -127,4 +134,35 @@ use App\Enums\StateProductEnum;
             @endif
         </div>
     </div>
+
+    @if ($isDeactivateModalVisible)
+        <div class="fixed inset-0 z-40 flex items-center justify-center bg-gray-900/60 px-4">
+            <div class="w-full max-w-md rounded-lg bg-white p-6 shadow-xl">
+                <h2 class="text-lg font-semibold text-gray-900">
+                    Confirmar eliminacion
+                </h2>
+                <p class="mt-2 text-sm text-gray-600">
+                    Se dara de baja el producto {{ $productNameToDeactivate }}. Si ya esta en "Sin stock", pasara a "Descontinuado". Desea continuar?
+                </p>
+
+                <div class="mt-6 flex justify-end gap-3">
+                    <button
+                        type="button"
+                        wire:click="cancelDeactivate"
+                        class="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                    >
+                        Cancelar
+                    </button>
+
+                    <button
+                        type="button"
+                        wire:click="confirmDeactivate"
+                        class="rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700"
+                    >
+                        Confirmar
+                    </button>
+                </div>
+            </div>
+        </div>
+    @endif
 </div>

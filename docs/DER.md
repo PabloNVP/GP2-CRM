@@ -32,10 +32,10 @@ erDiagram
 
     productos {
         int id PK
-        int tipo_categoria_id FK
+        int categoria_id FK
         string nombre
         string descripcion
-        enum estado "activo | inactivo"
+        enum estado "available | out_of_stock | Discounted"
         timestamp created_at
         timestamp updated_at
         timestamp deleted_at
@@ -45,10 +45,8 @@ erDiagram
         int id PK
         string nombre
         string descripcion
-        enum estado "activo | inactivo"
         timestamp created_at
         timestamp updated_at
-        timestamp deleted_at
     }
 
     pedidos {
@@ -110,7 +108,7 @@ erDiagram
     clientes ||--o{ pedidos : "realiza"
     clientes ||--o{ tickets : "abre"
 
-    tipos_categoria ||--o{ productos : "clasifica"
+    categoria ||--o{ productos : "clasifica"
     productos ||--o{ detalle_pedidos : "incluido en"
     productos ||--o{ tickets : "referido en"
 
@@ -168,7 +166,7 @@ Productos de software que comercializa la empresa.
 | Atributo          | Tipo         | Restricciones                                   | Descripción                              |
 | ----------------- | ------------ | ----------------------------------------------- | ---------------------------------------- |
 | id                | INTEGER      | PK, auto-increment                              | Identificador único                      |
-| tipo_categoria_id | INTEGER      | FK → tipos_categoria.id, NOT NULL               | Categoría del producto                   |
+| categoria_id      | INTEGER      | FK → categoria.id, NOT NULL               | Categoría del producto                   |
 | nombre            | VARCHAR(255) | NOT NULL                                        | Nombre del producto                      |
 | descripcion       | TEXT         | nullable                                        | Descripción del producto                 |
 | estado            | ENUM         | NOT NULL, default: activo                       | activo / inactivo                        |
@@ -178,19 +176,17 @@ Productos de software que comercializa la empresa.
 
 ---
 
-### tipos_categoria
+### Categoria_Producto
 
-Categorías de producto disponibles para clasificar el catálogo (ej: ERP, CRM, Facturación).
+Categorías de producto disponibles para clasificar el catálogo.
 
 | Atributo   | Tipo         | Restricciones             | Descripción                  |
 | ---------- | ------------ | ------------------------- | ---------------------------- |
 | id         | INTEGER      | PK, auto-increment        | Identificador único          |
 | nombre     | VARCHAR(255) | NOT NULL, UNIQUE          | Nombre de la categoría       |
 | descripcion | TEXT         | nullable                  | Descripción de la categoría  |
-| estado     | ENUM         | NOT NULL, default: activo | activo / inactivo            |
 | created_at | TIMESTAMP    |                           | Fecha de creación            |
 | updated_at | TIMESTAMP    |                           | Fecha de última modificación |
-| deleted_at | TIMESTAMP    | nullable                  | Soft delete                  |
 
 ---
 
@@ -284,7 +280,7 @@ Respuestas/mensajes dentro de un ticket de soporte.
 | -------------------------------- | ------------ | ------------------------------------------------------------ |
 | clientes → pedidos               | 1:N          | Un cliente puede realizar muchos pedidos                     |
 | clientes → tickets               | 1:N          | Un cliente puede abrir muchos tickets                        |
-| tipos_categoria → productos      | 1:N          | Una categoría puede clasificar muchos productos              |
+| categoria → productos      | 1:N          | Una categoría puede clasificar muchos productos              |
 | productos → detalle_pedidos      | 1:N          | Un producto puede aparecer en muchos detalles de pedido      |
 | productos → tickets              | 1:N          | Un producto puede estar referenciado en muchos tickets       |
 | pedidos → detalle_pedidos        | 1:N          | Un pedido contiene muchas líneas de detalle                  |

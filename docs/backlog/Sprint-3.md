@@ -133,16 +133,16 @@
 |---|---|
 | Prioridad | Media |
 | Estimación | 2 pts |
-| Criterios de aceptación | Al presionar "Eliminar" se muestra un modal de confirmación. La baja es lógica (cambia estado a "Inactivo"). El producto permanece visible con filtro "Inactivo" pero no aparece en el listado por defecto. |
+| Criterios de aceptación | Al presionar "Eliminar" se muestra un modal de confirmación. La baja es lógica (cambia estado a "out_of_stock"). El producto permanece visible con filtro "out_of_stock" pero no aparece en el listado por defecto. Si se lo elimina en el estado "out_of_stock" pasa al estado "Descontinuado". |
 
 **Checklist de subtareas (SC-05)**
-- [ ] Agregar acción "Eliminar" en el listado de productos.
-- [ ] Implementar modal de confirmación de baja lógica.
-- [ ] Implementar baja lógica cambiando estado a "Inactivo".
-- [ ] Ajustar listado por defecto para mostrar productos activos.
-- [ ] Verificar que producto inactivo aparezca al usar filtro "Inactivo".
-- [ ] Mostrar notificación flash de confirmación al desactivar.
-- [ ] Crear test feature/livewire para flujo de baja lógica.
+- [x] Agregar acción "Eliminar" en el listado de productos.
+- [x] Implementar modal de confirmación de baja lógica.
+- [x] Implementar baja lógica cambiando estado a "out_of_stock".
+- [x] Ajustar listado por defecto para mostrar productos activos.
+- [x] Verificar que producto out_of_stock aparezca al usar filtro "out_of_stock".
+- [x] Mostrar notificación flash de confirmación al desactivar.
+- [x] Crear test feature/livewire para flujo de baja lógica.
 
 ---
 

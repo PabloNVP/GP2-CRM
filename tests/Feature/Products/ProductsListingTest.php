@@ -111,6 +111,7 @@ class ProductsListingTest extends TestCase
         ]);
 
         Livewire::test(IndexProducts::class)
+            ->set('statusFilter', '')
             ->set('search', 'cr')
             ->assertSee('CRM Basic')
             ->assertSee('Service Plus');
@@ -213,6 +214,63 @@ class ProductsListingTest extends TestCase
             ->set('search', 'Producto 11')
             ->assertSee('Producto 11')
             ->assertDontSee('Producto 01');
+    }
+
+    public function test_it_shows_only_available_products_by_default(): void
+    {
+        DB::table('products')->insert([
+            [
+                'name' => 'Producto Disponible',
+                'description' => 'Producto activo',
+                'stock' => 5,
+                'status' => StateProductEnum::AVAILABLE->value,
+                'created_at' => now(),
+                'updated_at' => now(),
+                'deleted_at' => null,
+            ],
+            [
+                'name' => 'Producto Sin Stock',
+                'description' => 'Producto inactivo',
+                'stock' => 0,
+                'status' => StateProductEnum::OUT_OF_STOCK->value,
+                'created_at' => now(),
+                'updated_at' => now(),
+                'deleted_at' => null,
+            ],
+        ]);
+
+        Livewire::test(IndexProducts::class)
+            ->assertSee('Producto Disponible')
+            ->assertDontSee('Producto Sin Stock');
+    }
+
+    public function test_it_lists_out_of_stock_products_when_filter_is_selected(): void
+    {
+        DB::table('products')->insert([
+            [
+                'name' => 'Producto Disponible',
+                'description' => 'Producto activo',
+                'stock' => 5,
+                'status' => StateProductEnum::AVAILABLE->value,
+                'created_at' => now(),
+                'updated_at' => now(),
+                'deleted_at' => null,
+            ],
+            [
+                'name' => 'Producto Sin Stock',
+                'description' => 'Producto inactivo',
+                'stock' => 0,
+                'status' => StateProductEnum::OUT_OF_STOCK->value,
+                'created_at' => now(),
+                'updated_at' => now(),
+                'deleted_at' => null,
+            ],
+        ]);
+
+        Livewire::test(IndexProducts::class)
+            ->set('statusFilter', StateProductEnum::OUT_OF_STOCK->value)
+            ->assertSee('Producto Sin Stock')
+            ->assertDontSee('Producto Disponible');
     }
 
     private function seedProducts(int $total): void
