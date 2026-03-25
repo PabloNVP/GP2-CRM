@@ -2,7 +2,8 @@
 
 namespace App\Livewire\Products;
 
-use App\Livewire\Actions\Products\UpsertProduct;
+use App\Livewire\Actions\Products\InsertProduct;
+use App\Livewire\Actions\Products\UpdateProduct;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -40,7 +41,7 @@ class AddProduct extends Component
         return view('products.add-product', compact('categories'));
     }
 
-    public function saveProduct(UpsertProduct $upsertProduct)
+    public function saveProduct(InsertProduct $insertProduct, UpdateProduct $updateProduct)
     {
         $this->name = trim($this->name);
         $this->description = trim($this->description);
@@ -53,8 +54,15 @@ class AddProduct extends Component
             'category_id' => (int) $validated['categoryId'],
         ];
 
+        $isEditing = $this->isEditing();
+        $status = false;
+
         try {
-            $status = $upsertProduct($payload, $this->productId);
+            if ($isEditing && $this->productId !== null) {
+                $status = $updateProduct($payload, $this->productId);
+            } else {
+                $status = $insertProduct($payload);
+            }
         } catch (ModelNotFoundException) {
             session()->flash('error', 'El producto seleccionado no existe.');
 
@@ -64,12 +72,12 @@ class AddProduct extends Component
         if ($status) {
             session()->flash(
                 'message',
-                $this->isEditing() ? 'Producto actualizado exitosamente.' : 'Producto agregado exitosamente.'
+                $isEditing ? 'Producto actualizado exitosamente.' : 'Producto agregado exitosamente.'
             );
         } else {
             session()->flash(
                 'error',
-                $this->isEditing() ? 'Hubo un error al actualizar el producto.' : 'Hubo un error al agregar el producto.'
+                $isEditing ? 'Hubo un error al actualizar el producto.' : 'Hubo un error al agregar el producto.'
             );
         }
 

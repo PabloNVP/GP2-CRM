@@ -30,7 +30,7 @@ class ClientsDeleteTest extends TestCase
         ]);
 
         Livewire::test(DeleteClient::class, ['client' => $client])
-            ->call('upgradeClient')
+            ->call('confirmAction')
             ->assertDispatched('show-message')
             ->assertDispatched('toggle-visible');
 
@@ -56,7 +56,7 @@ class ClientsDeleteTest extends TestCase
         ]);
 
         Livewire::test(DeleteClient::class, ['client' => $client])
-            ->call('upgradeClient')
+            ->call('confirmAction')
             ->assertDispatched('show-message')
             ->assertDispatched('toggle-visible');
            

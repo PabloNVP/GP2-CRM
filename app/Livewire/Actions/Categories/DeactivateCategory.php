@@ -20,12 +20,11 @@ final readonly class DeactivateCategory
             throw (new ModelNotFoundException())->setModel(Category::class, [$categoryId]);
         }
 
-        $hasActiveProducts = $category->products()
-            ->where('status', StateProductEnum::AVAILABLE->value)
+        $hasProducts = $category->products()
             ->exists();
 
-        if ($hasActiveProducts) {
-            throw new \DomainException('No se puede dar de baja la categoria porque tiene productos activos asociados.');
+        if ($hasProducts) {
+            throw new \DomainException('No se puede dar de baja la categoria porque tiene productos asociados.');
         }
 
         return $category->delete();

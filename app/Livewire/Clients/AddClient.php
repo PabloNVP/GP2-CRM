@@ -2,7 +2,8 @@
 
 namespace App\Livewire\Clients;
 
-use App\Livewire\Actions\Clients\UpsertClient;
+use App\Livewire\Actions\Clients\InsertClient;
+use App\Livewire\Actions\Clients\UpdateClient;
 use App\Models\Client;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\Rule;
@@ -41,21 +42,18 @@ class AddClient extends Component
         return view('clients.add-client');
     }
 
-    public function saveClient(UpsertClient $upsertClient)
+    public function saveClient(InsertClient $insertClient, UpdateClient $updateClient)
     {
-        $this->validate();
-
-        $payload = [
-            'firstname' => $this->firstname,
-            'lastname' => $this->lastname,
-            'email' => $this->email,
-            'phone' => $this->phone,
-            'address' => $this->address,
-            'company' => $this->company,
-        ];
+        $payload = $this->validate();
+        $isEditing = $this->isEditing();
+        $status = false;
 
         try {
-            $status = $upsertClient($payload, $this->clientId);
+            if ($isEditing && $this->clientId !== null) {
+                $status = $updateClient($payload, $this->clientId);
+            } else {
+                $status = $insertClient($payload);
+            }
         } catch (ModelNotFoundException) {
             session()->flash('error', 'El cliente seleccionado no existe.');
 
@@ -65,12 +63,12 @@ class AddClient extends Component
         if ($status) {
             session()->flash(
                 'message',
-                $this->clientId ? 'Cliente actualizado exitosamente.' : 'Cliente agregado exitosamente.'
+                $isEditing ? 'Cliente actualizado exitosamente.' : 'Cliente agregado exitosamente.'
             );
         } else {
             session()->flash(
                 'error',
-                $this->clientId ? 'Hubo un error al actualizar el cliente.' : 'Hubo un error al agregar el cliente.'
+                $isEditing ? 'Hubo un error al actualizar el cliente.' : 'Hubo un error al agregar el cliente.'
             );
         }
 

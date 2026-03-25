@@ -22,7 +22,7 @@ class DeleteCategory extends Component
         return view('categories.delete-category');
     }
 
-    public function confirmDeactivate(DeactivateCategory $deactivateCategory): void
+    public function confirmAction(DeactivateCategory $deactivateCategory): void
     {
         if (! $this->categoryId) {
             $this->dispatch('show-error', 'No se selecciono ninguna categoria.');
@@ -52,7 +52,7 @@ class DeleteCategory extends Component
         $this->dispatch('close-deactivate-modal');
     }
 
-    public function cancelDeactivate(): void
+    public function cancelAction(): void
     {
         $this->dispatch('close-deactivate-modal');
     }

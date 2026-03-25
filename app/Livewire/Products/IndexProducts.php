@@ -3,6 +3,7 @@
 namespace App\Livewire\Products;
 
 use App\Enums\StateProductEnum;
+use App\Livewire\Actions\Products\ActivateProduct;
 use App\Livewire\Actions\Products\DeactivateProduct;
 use App\Livewire\Actions\Products\ListeringProduct;
 use App\Models\Category;
@@ -18,24 +19,31 @@ class IndexProducts extends Component
     public string $statusFilter = StateProductEnum::AVAILABLE->value;
     public string $categoryFilter = '';
     public bool $isDeactivateModalVisible = false;
-    public ?int $productIdToDeactivate = null;
-    public string $productNameToDeactivate = '';
+    public ?int $productIdToAction = null;
+    public string $productNameToAction = '';
+    public string $productActionType = 'deactivate';
 
-    public function openDeactivateModal(int $productId, string $productName): void
+    public function openDeactivateModal(int $productId, string $productName, string $actionType = 'deactivate'): void
     {
-        $this->productIdToDeactivate = $productId;
-        $this->productNameToDeactivate = $productName;
+        $this->productIdToAction = $productId;
+        $this->productNameToAction = $productName;
+        $this->productActionType = in_array($actionType, ['activate', 'deactivate'], true)
+            ? $actionType
+            : 'deactivate';
         $this->isDeactivateModalVisible = true;
     }
 
-    public function cancelDeactivate(): void
+    public function cancelAction(): void
     {
         $this->resetDeactivateState();
     }
 
-    public function confirmDeactivate(DeactivateProduct $deactivateProduct): void
+    public function confirmAction(
+        DeactivateProduct $deactivateProduct,
+        ActivateProduct $activateProduct,
+    ): void
     {
-        if (! $this->productIdToDeactivate) {
+        if (! $this->productIdToAction) {
             session()->flash('error', 'No se selecciono ningun producto.');
             $this->resetDeactivateState();
 
@@ -43,7 +51,11 @@ class IndexProducts extends Component
         }
 
         try {
-            $deactivateProduct($this->productIdToDeactivate);
+            if ($this->productActionType === 'activate') {
+                $activateProduct($this->productIdToAction);
+            } else {
+                $deactivateProduct($this->productIdToAction);
+            }
 
             session()->flash('message', 'Producto actualizado de estado correctamente.');
         } catch (ModelNotFoundException) {
@@ -88,7 +100,8 @@ class IndexProducts extends Component
     private function resetDeactivateState(): void
     {
         $this->isDeactivateModalVisible = false;
-        $this->productIdToDeactivate = null;
-        $this->productNameToDeactivate = '';
+        $this->productIdToAction = null;
+        $this->productNameToAction = '';
+        $this->productActionType = 'deactivate';
     }
 }

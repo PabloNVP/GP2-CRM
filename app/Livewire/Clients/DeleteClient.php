@@ -40,25 +40,22 @@ class DeleteClient extends Component
         return view('clients.delete-client');
     }
 
-    public function cancelUpgrade() : void
+    public function cancelAction() : void
     {
         $this->dispatch('toggle-visible');
     }
 
-    public function actionClient() : DeactivateClient | ActivateClient
-    {
-        return ($this->isDelete) ? new DeactivateClient : new ActivateClient;
-    }
-
-    public function upgradeClient()
+    public function confirmAction(DeactivateClient $deactivateClient,ActivateClient $activateClient): void
     {
         if (! $this->clientUpgradeId) {
             $this->dispatch('show-message', 'No se selecciono ningun cliente.');
             $this->dispatch('toggle-visible');
+
+            return;
         }
 
         try {
-            $this->actionClient()($this->clientUpgradeId);
+            ($this->isDelete ? $deactivateClient : $activateClient)($this->clientUpgradeId);
             $this->dispatch('show-message', 'Cliente dado de ' . ($this->isDelete ? 'baja' : 'alta') . ' correctamente.');
         } catch (ModelNotFoundException) {
             $this->dispatch('show-message', 'El cliente seleccionado no existe.');
