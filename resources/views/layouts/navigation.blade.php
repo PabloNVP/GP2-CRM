@@ -69,15 +69,17 @@ new class extends Component
     </a>
 
     @if ($isProducts || $isCategories)
-    <a
-        href="{{ route('categories.index') }}"
-        wire:navigate
-        class="{{ $navItemBase }} {{ $isCategories ? $navItemActive : $navItemIdle }}"
-        @if ($isCategories) aria-current="page" @endif
-    >
-        <span class="material-icons">category</span>
-        <span>Categorías</span>
-    </a>
+    <div class="ml-5 border-l border-slate-200 dark:border-slate-700 pl-3">
+        <a
+            href="{{ route('categories.index') }}"
+            wire:navigate
+            class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors {{ $isCategories ? 'bg-primary/10 text-primary font-semibold' : 'text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800' }}"
+            @if ($isCategories) aria-current="page" @endif
+        >
+            <span class="material-icons text-[18px]">subdirectory_arrow_right</span>
+            <span>Categorías</span>
+        </a>
+    </div>
     @endif
 
     <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">

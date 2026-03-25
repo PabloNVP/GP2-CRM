@@ -2,7 +2,8 @@
 
 namespace App\Livewire\Categories;
 
-use App\Livewire\Actions\Categories\UpsertCategory;
+use App\Livewire\Actions\Categories\InsertCategory;
+use App\Livewire\Actions\Categories\UpdateCategory;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\Rule;
@@ -33,7 +34,7 @@ class AddCategory extends Component
         return view('categories.add-category');
     }
 
-    public function saveCategory(UpsertCategory $upsertCategory)
+    public function saveCategory(InsertCategory $insertCategory, UpdateCategory $updateCategory)
     {
         $this->name = trim($this->name);
         $this->description = trim($this->description);
@@ -45,8 +46,15 @@ class AddCategory extends Component
             'description' => $validated['description'] === '' ? null : $validated['description'],
         ];
 
+        $isEditing = $this->isEditing();
+        $status = false;
+
         try {
-            $status = $upsertCategory($payload, $this->categoryId);
+            if ($isEditing && $this->categoryId !== null) {
+                $status = $updateCategory($payload, $this->categoryId);
+            } else {
+                $status = $insertCategory($payload);
+            }
         } catch (ModelNotFoundException) {
             session()->flash('error', 'La categoria seleccionada no existe.');
 
@@ -56,12 +64,12 @@ class AddCategory extends Component
         if ($status) {
             session()->flash(
                 'message',
-                $this->isEditing() ? 'Categoria actualizada exitosamente.' : 'Categoria agregada exitosamente.'
+                $isEditing ? 'Categoria actualizada exitosamente.' : 'Categoria agregada exitosamente.'
             );
         } else {
             session()->flash(
                 'error',
-                $this->isEditing() ? 'Hubo un error al actualizar la categoria.' : 'Hubo un error al agregar la categoria.'
+                $isEditing ? 'Hubo un error al actualizar la categoria.' : 'Hubo un error al agregar la categoria.'
             );
         }
 

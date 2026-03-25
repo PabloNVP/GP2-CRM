@@ -24,7 +24,7 @@ class ProductDeactivateTest extends TestCase
         Livewire::test(IndexProducts::class)
             ->call('openDeactivateModal', $product->id, $product->name)
             ->assertSet('isDeactivateModalVisible', true)
-            ->call('confirmDeactivate')
+            ->call('confirmAction')
             ->assertSet('isDeactivateModalVisible', false)
             ->assertSee('Producto actualizado de estado correctamente.');
 
@@ -44,7 +44,7 @@ class ProductDeactivateTest extends TestCase
 
         Livewire::test(IndexProducts::class)
             ->call('openDeactivateModal', $product->id, $product->name)
-            ->call('confirmDeactivate')
+            ->call('confirmAction')
             ->assertSet('isDeactivateModalVisible', false);
 
         $this->assertDatabaseHas('products', [

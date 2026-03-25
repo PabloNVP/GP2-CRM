@@ -53,7 +53,7 @@ use \App\Enums\StateEnum;
             />
         </div>
 
-        <div wire:loading wire:target="stateFilter" >
+        <div wire:loading wire:target="stateFilter, search" >
             <svg class="animate-spin h-5 w-5 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -98,21 +98,21 @@ use \App\Enums\StateEnum;
                             <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-700 text-center">{{ $client->company }}</td>
                             <td class="whitespace-nowrap px-6 py-4 text-sm text-center">
                                 <label class="state {{ $client->state === StateEnum::ACTIVE ? 'active' : 'inactive' }}">
-                                    {{ $client->state }}
+                                    {{ ucfirst($client->state->value) }}
                                 </label>
                             </td>
                             <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-700 text-center">
                                 <a
                                     href="{{ route('clients.edit', $client) }}"
                                     wire:navigate
-                                    class="font-medium text-indigo-600 hover:text-indigo-800"
+                                    class="buttonAction edit"
                                 >
                                     Editar
                                 </a>
                                 <a
                                     href="#"
-                                    wire:click.prevent="$set('isVisible', true)"
-                                    class="ml-3 font-medium text-red-600 hover:text-red-800"
+                                    wire:click.prevent="openDeleteModal({{ $client->id }})"
+                                    class="ml-3 buttonAction delete"
                                 >
                                     @if ($client->state === StateEnum::ACTIVE)
                                         Eliminar
@@ -139,7 +139,7 @@ use \App\Enums\StateEnum;
         
     </div>
  
-    @if($isVisible)
-        <livewire:clients.delete-client :client="$client" />
+    @if($isVisible && $selectedClient)
+        <livewire:clients.delete-client :client="$selectedClient" :key="'delete-client-'.$selectedClient->id" />
     @endif
 </div>

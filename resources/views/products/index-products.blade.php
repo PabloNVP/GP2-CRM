@@ -86,38 +86,48 @@ use App\Enums\StateProductEnum;
                             <th scope="col" class="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-500">Acciones</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-200 bg-white">
+                    <tbody class="divide-y divide-gray-200 bg-white">                   
                         @foreach ($products as $product)
-                            @php
-                                $status = $product->status instanceof StateProductEnum
-                                    ? $product->status->value
-                                    : (string) $product->status;
-                            @endphp
                             <tr>
                                 <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-900 text-center">{{ $product->name }}</td>
                                 <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-700 text-center">
                                     {{ $product->category?->name ?? '-' }}
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4 text-sm text-center">
-                                    <span class="inline-flex rounded-full px-2 py-1 text-xs font-semibold {{ $status === StateProductEnum::AVAILABLE->value ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700' }}">
-                                        {{ ucfirst($status) }}
+                                    <span class="state {{ $product->status === StateProductEnum::AVAILABLE ? 'active' :
+                                    ($product->status === StateProductEnum::OUT_OF_STOCK ? 'out' : 'inactive') }}">
+                                        {{ ucfirst($product->status->value) }}
                                     </span>
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4 text-sm text-center">
                                     <a
                                         href="{{ route('products.edit', $product) }}"
                                         wire:navigate
-                                        class="inline-flex items-center rounded-md border border-indigo-200 px-3 py-1 text-xs font-medium text-indigo-700 hover:bg-indigo-50"
+                                        class="buttonAction edit"
                                     >
                                         Editar
                                     </a>
+
+                                    @if ($product->status === StateProductEnum::OUT_OF_STOCK || $product->status === StateProductEnum::DISCONTINUED)
                                     <button
                                         type="button"
-                                        wire:click='openDeactivateModal({{ $product->id }}, @json($product->name))'
-                                        class="ml-2 inline-flex items-center rounded-md border border-red-200 px-3 py-1 text-xs font-medium text-red-700 hover:bg-red-50"
+                                        wire:click='openDeactivateModal({{ $product->id }}, @json($product->name), "activate")'
+                                        class="ml-2 buttonAction active"
                                     >
-                                        Eliminar
+                                        Activar
                                     </button>
+                                    @endif
+
+                                    @if ($product->status === StateProductEnum::AVAILABLE || $product->status === StateProductEnum::OUT_OF_STOCK)
+                                    <button
+                                        type="button"
+                                        wire:click='openDeactivateModal({{ $product->id }}, @json($product->name), "deactivate")'
+                                        class="ml-2 buttonAction deactivate"
+                                    >
+                                        Desactivar
+                                    </button>
+                                    @endif
+
                                 </td>
                             </tr>
                         @endforeach
@@ -125,9 +135,9 @@ use App\Enums\StateProductEnum;
                 </table>
 
                 @if ($products->hasPages())
-                    <div class="px-4 py-3 bg-gray-50 border-t border-gray-200">
-                        {{ $products->links() }}
-                    </div>
+                <div class="px-4 py-3 bg-gray-50 border-t border-gray-200">
+                    {{ $products->links() }}
+                </div>
                 @endif
             @else
                 <div class="p-4 text-center text-gray-500">No hay productos registrados</div>
@@ -136,33 +146,12 @@ use App\Enums\StateProductEnum;
     </div>
 
     @if ($isDeactivateModalVisible)
-        <div class="fixed inset-0 z-40 flex items-center justify-center bg-gray-900/60 px-4">
-            <div class="w-full max-w-md rounded-lg bg-white p-6 shadow-xl">
-                <h2 class="text-lg font-semibold text-gray-900">
-                    Confirmar eliminacion
-                </h2>
-                <p class="mt-2 text-sm text-gray-600">
-                    Se dara de baja el producto {{ $productNameToDeactivate }}. Si ya esta en "Sin stock", pasara a "Descontinuado". Desea continuar?
-                </p>
-
-                <div class="mt-6 flex justify-end gap-3">
-                    <button
-                        type="button"
-                        wire:click="cancelDeactivate"
-                        class="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-                    >
-                        Cancelar
-                    </button>
-
-                    <button
-                        type="button"
-                        wire:click="confirmDeactivate"
-                        class="rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700"
-                    >
-                        Confirmar
-                    </button>
-                </div>
-            </div>
-        </div>
+        <x-action-model
+            :title="$productActionType === 'activate' ? 'Confirmar activacion' : 'Confirmar desactivacion'"
+            :message="'Se ' . ($productActionType === 'activate' ? 'activara' : 'desactivara') . ' el producto ' . $productNameToAction . '. Desea continuar?'"
+            cancelMethod="cancelAction"
+            confirmMethod="confirmAction"
+            :variant="$productActionType === 'activate' ? 'success' : 'danger'"
+        />
     @endif
 </div>

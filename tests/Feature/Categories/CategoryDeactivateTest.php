@@ -42,7 +42,7 @@ class CategoryDeactivateTest extends TestCase
             'categoryId' => $category->id,
             'categoryName' => $category->name,
         ])
-            ->call('confirmDeactivate')
+            ->call('confirmAction')
             ->assertDispatched('show-message', 'Categoria dada de baja correctamente.')
             ->assertDispatched('close-deactivate-modal');
 
@@ -69,7 +69,7 @@ class CategoryDeactivateTest extends TestCase
             'categoryId' => $category->id,
             'categoryName' => $category->name,
         ])
-            ->call('confirmDeactivate')
+            ->call('confirmAction')
             ->assertDispatched('show-error', 'No se puede dar de baja la categoria porque tiene productos activos asociados.')
             ->assertDispatched('close-deactivate-modal');
 

@@ -236,7 +236,7 @@ class ClientsListingTest extends TestCase
         ]);
 
         Livewire::test(DeleteClient::class, ['client' => $client])
-            ->call('upgradeClient');
+            ->call('confirmAction');
 
         Livewire::test(Index::class)
             ->set('stateFilter', StateEnum::INACTIVE->value)
@@ -257,7 +257,7 @@ class ClientsListingTest extends TestCase
         ]);
 
         Livewire::test(DeleteClient::class, ['client' => $client])
-            ->call('upgradeClient');
+            ->call('confirmAction');
 
         Livewire::test(Index::class)
             ->set('stateFilter', StateEnum::ACTIVE->value)
