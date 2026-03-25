@@ -24,7 +24,7 @@ class CategoryDeactivateTest extends TestCase
             ->assertSet('isDeactivateModalVisible', false);
     }
 
-    public function test_it_deactivates_category_without_active_products(): void
+    public function test_it_does_not_deactivate_category_with_out_of_stock_products(): void
     {
         $category = Category::query()->create([
             'name' => 'Servicios',
@@ -43,15 +43,16 @@ class CategoryDeactivateTest extends TestCase
             'categoryName' => $category->name,
         ])
             ->call('confirmAction')
-            ->assertDispatched('show-message', 'Categoria dada de baja correctamente.')
+            ->assertDispatched('show-error', 'No se puede dar de baja la categoria porque tiene productos asociados.')
             ->assertDispatched('close-deactivate-modal');
 
-        $this->assertDatabaseMissing('categories', [
+        $this->assertDatabaseHas('categories', [
             'id' => $category->id,
+            'name' => 'Servicios',
         ]);
     }
 
-    public function test_it_does_not_deactivate_category_with_active_products(): void
+    public function test_it_does_not_deactivate_category_with_available_products(): void
     {
         $category = Category::query()->create([
             'name' => 'Suscripciones',
@@ -70,7 +71,7 @@ class CategoryDeactivateTest extends TestCase
             'categoryName' => $category->name,
         ])
             ->call('confirmAction')
-            ->assertDispatched('show-error', 'No se puede dar de baja la categoria porque tiene productos activos asociados.')
+            ->assertDispatched('show-error', 'No se puede dar de baja la categoria porque tiene productos asociados.')
             ->assertDispatched('close-deactivate-modal');
 
         $this->assertDatabaseHas('categories', [

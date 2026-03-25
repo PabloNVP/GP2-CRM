@@ -3,35 +3,15 @@
 namespace Tests\Unit\Clients;
 
 use App\Enums\StateEnum;
-use App\Livewire\Actions\Clients\UpsertClient;
+use App\Livewire\Actions\Clients\UpdateClient;
 use App\Models\Client;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class UpsertClientTest extends TestCase
+class UpdateClientTest extends TestCase
 {
     use RefreshDatabase;
-
-    public function test_it_creates_client_when_id_is_null(): void
-    {
-        $action = new UpsertClient();
-
-        $status = $action([
-            'firstname' => 'Laura',
-            'lastname' => 'Diaz',
-            'email' => 'laura.diaz@example.com',
-            'phone' => '123456',
-            'address' => 'Calle 123',
-            'company' => 'Acme',
-        ]);
-
-        $this->assertTrue($status);
-        $this->assertDatabaseHas('clients', [
-            'email' => 'laura.diaz@example.com',
-            'state' => StateEnum::ACTIVE->value,
-        ]);
-    }
 
     public function test_it_updates_existing_client(): void
     {
@@ -42,7 +22,7 @@ class UpsertClientTest extends TestCase
             'state' => StateEnum::ACTIVE,
         ]);
 
-        $action = new UpsertClient();
+        $action = new UpdateClient();
 
         $status = $action([
             'firstname' => 'Laura Maria',
@@ -64,7 +44,7 @@ class UpsertClientTest extends TestCase
     {
         $this->expectException(ModelNotFoundException::class);
 
-        $action = new UpsertClient();
+        $action = new UpdateClient();
 
         $action([
             'firstname' => 'A',
