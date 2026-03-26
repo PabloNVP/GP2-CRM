@@ -23,24 +23,24 @@
 - Notificaciones flash de éxito/error.
 
 ### Backend - Laravel (Product + TipoCategoria)
-- **Modelo Eloquent** `Product` con campos: id, tipo_categoria_id, nombre, descripcion, estado, created_at, updated_at, deleted_at (SoftDeletes).
-- **Modelo Eloquent** `TipoCategoria` con campos: id, nombre, descripcion, estado, created_at, updated_at, deleted_at (SoftDeletes).
+- **Modelo Eloquent** `Product` con campos: id, category_id, nombre, descripcion, estado, created_at, updated_at, deleted_at (SoftDeletes).
+- **Modelo Eloquent** `Category` con campos: id, nombre, descripcion, state, created_at, updated_at.
 - **Migración** de creación de tabla `products` en SQLite.
-- **Migración** de creación de tabla `tipos_categoria` en SQLite.
+- **Migración** de creación de tabla `category` en SQLite.
 - **Rutas web** (sin API REST, ya que Livewire maneja las acciones):
   - `GET /products` - Listado (Livewire).
   - `GET /products/create` - Formulario de alta.
   - `GET /products/{product}/edit` - Formulario de edición.
-  - `GET /tipos-categoria` - Listado (Livewire).
-  - `GET /tipos-categoria/create` - Formulario de alta.
-  - `GET /tipos-categoria/{tipoCategoria}/edit` - Formulario de edición.
+  - `GET /categories` - Listado (Livewire).
+  - `GET /categories/create` - Formulario de alta.
+  - `GET /categories/{category}/edit` - Formulario de edición.
 - **Actions Livewire** para persistencia y baja lógica:
-  - `UpsertProduct`, `DeactivateProduct`, `ActivateProduct`.
-  - `UpsertTipoCategoria`, `DeactivateTipoCategoria`, `ActivateTipoCategoria`.
+  - `InsertProduct`, `UpdateProduct`, `DeactivateProduct`, `ActivateProduct`.
+  - `InsertCategory`, `UpdateCategory`, `DeactivateCategory`.
 
 ### Pruebas
-- Tests unitarios de validaciones del modelo `Product` y `TipoCategoria`.
-- Tests feature para operaciones de producto (store, update, deactivate).
+- Tests unitarios de validaciones del modelo `Product` y `Category`.
+- Tests feature para operaciones de producto (store, update, activate, deactivate).
 - Tests feature para operaciones de categoría (store, update, deactivate).
 - Tests de componente Livewire (búsqueda, filtros, paginación y combinación de filtros).
 - Test E2E con Laravel Dusk: flujo completo alta de categoría -> alta de producto -> listado -> edición -> baja lógica.
@@ -192,13 +192,32 @@
 |---|---|
 | Prioridad | Alta |
 | Estimación | 2 pts |
-| Criterios de aceptación | La migración crea la tabla con campos: id, nombre, descripcion, estado, timestamps, deleted_at. Incluye índice único en `nombre`. Se puede ejecutar y revertir sin errores. |
+| Criterios de aceptación | La migración crea la tabla con campos: id, name, descripcion, state, timestamps, deleted_at. Incluye índice único en `name`. Se puede ejecutar y revertir sin errores. |
 
 **Checklist de subtareas (SC-08)**
 - [x] Crear migración de tabla `categories`.
-- [x] Definir índice único para `nombre`.
+- [x] Definir índice único para `name`.
 - [x] Ejecutar `php artisan migrate` y verificar creación correcta.
 - [x] Ejecutar `php artisan migrate:rollback` y verificar reversión sin errores.
+
+---
+
+### SC-09: Completar cobertura de pruebas de Sprint 3
+**Como** equipo de desarrollo, **quiero** cerrar la cobertura de pruebas faltante **para** asegurar el criterio de calidad y evitar regresiones en ABM de productos y categorías.
+
+| Campo | Detalle |
+|---|---|
+| Prioridad | Alta |
+| Estimación | 5 pts |
+| Criterios de aceptación | Existen tests automáticos para activación de productos y flujo positivo de baja de categoría sin productos asociados. Se documenta explícitamente que en categorías no aplica operación de activación porque la baja es física, y se deja preparado el escenario E2E de Dusk para el flujo crítico del sprint. |
+
+**Checklist de subtareas (SC-09)**
+- [x] Relevar cobertura actual de tests de productos/categorías y detectar brechas.
+- [x] Crear test feature para operación `activate` de producto.
+- [x] Agregar test feature para baja lógica exitosa de categoría sin productos asociados.
+- [x] Documentar que no aplica operación `activate` en categorías por baja física.
+- [x] Configurar Laravel Dusk
+- [x] Crear test E2E del flujo: alta categoría -> alta producto -> listado -> edición -> baja lógica.
 
 ---
 
@@ -214,4 +233,5 @@
 | SC-06: Configurar base de datos de productos | 2 |
 | SC-07: Gestionar categorías de producto | 3 |
 | SC-08: Configurar base de datos de categorías | 2 |
-| **Total** | **22 pts** |
+| SC-09: Completar cobertura de pruebas de Sprint | 2 |
+| **Total** | **24 pts** |

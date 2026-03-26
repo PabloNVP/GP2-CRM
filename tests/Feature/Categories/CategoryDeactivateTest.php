@@ -15,6 +15,26 @@ class CategoryDeactivateTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_it_deactivates_category_without_associated_products(): void
+    {
+        $category = Category::query()->create([
+            'name' => 'Legacy',
+            'description' => null,
+        ]);
+
+        Livewire::test(DeleteCategory::class, [
+            'categoryId' => $category->id,
+            'categoryName' => $category->name,
+        ])
+            ->call('confirmAction')
+            ->assertDispatched('show-message', 'Categoria dada de baja correctamente.')
+            ->assertDispatched('close-deactivate-modal');
+
+        $this->assertDatabaseMissing('categories', [
+            'id' => $category->id,
+        ]);
+    }
+
     public function test_index_category_closes_modal_when_receiving_close_event(): void
     {
         Livewire::test(IndexCategory::class)
