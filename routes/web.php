@@ -5,6 +5,9 @@ use App\Livewire\Clients\IndexClient as ClientsIndex;
 use App\Livewire\Clients\DeleteClient as DeleteClient;
 use App\Livewire\Categories\AddCategory;
 use App\Livewire\Categories\IndexCategory;
+use App\Livewire\Orders\AddOrder as OrdersCreate;
+use App\Livewire\Orders\IndexOrders as OrdersIndex;
+use App\Livewire\Orders\ShowOrder as OrdersShow;
 use App\Livewire\Products\AddProduct;
 use App\Livewire\Products\IndexProducts as IndexProduct;
 use Illuminate\Support\Facades\Route;
@@ -53,6 +56,15 @@ Route::middleware(['auth', 'verified', 'state'])->group(function () {
 
     Route::get('clients/{client}/edit', AddClient::class)
         ->name('clients.edit');
+
+    Route::get('orders', OrdersIndex::class)
+        ->name('orders.index');
+
+    Route::get('orders/create', OrdersCreate::class)
+        ->name('orders.create');
+
+    Route::get('orders/{order}', OrdersShow::class)
+        ->name('orders.show');
 
     Route::view('profile', 'profile')
     //  ->middleware(['auth'])

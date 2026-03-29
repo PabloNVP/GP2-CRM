@@ -20,7 +20,7 @@ return new class extends Migration
                 ->nullOnDelete();
             $table->string('name')->notNullable();
             $table->text('description')->nullable();
-            $table->integer('stock')->default(0);
+            $table->decimal('unit_price', 10, 2)->default(0);
             $table->enum('status', StateProductEnum::getDatabaseValues())->default(StateProductEnum::getDefaultValue());
             $table->unique(['category_id', 'name']);
             $table->index('status');

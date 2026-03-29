@@ -13,6 +13,29 @@ class ProductStoreTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_it_stores_a_product_with_unit_price(): void
+    {
+        $category = Category::query()->create([
+            'name' => 'Ventas',
+            'description' => 'Categoria Comercial',
+        ]);
+
+        Livewire::test(AddProduct::class)
+            ->set('categoryId', (string) $category->id)
+            ->set('name', 'CRM Premium')
+            ->set('description', 'Producto con precio definido')
+            ->set('unitPrice', '149.99')
+            ->call('saveProduct')
+            ->assertHasNoErrors()
+            ->assertRedirect(route('products.index', absolute: false));
+
+        $this->assertDatabaseHas('products', [
+            'category_id' => $category->id,
+            'name' => 'CRM Premium',
+            'unit_price' => 149.99,
+        ]);
+    }
+
     public function test_it_stores_a_product_successfully(): void
     {
         $category = Category::query()->create([

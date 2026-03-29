@@ -17,6 +17,7 @@ class AddProduct extends Component
     public ?int $productId = null;
     public string $name = '';
     public string $description = '';
+    public string $unitPrice = '';
     public string $categoryId = '';
 
     public function mount(?Product $product = null): void
@@ -29,6 +30,7 @@ class AddProduct extends Component
         $this->productId = $product->id;
         $this->name = $product->name;
         $this->description = $product->description ?? '';
+        $this->unitPrice = (string) $product->unit_price;
         $this->categoryId = (string) $product->category_id;
     }
 
@@ -45,12 +47,14 @@ class AddProduct extends Component
     {
         $this->name = trim($this->name);
         $this->description = trim($this->description);
+        $this->unitPrice = trim($this->unitPrice);
 
         $validated = $this->validate();
 
         $payload = [
             'name' => $validated['name'],
             'description' => $validated['description'] === '' ? null : $validated['description'],
+            'unit_price' => (float) ($validated['unitPrice'] ?? 0),
             'category_id' => (int) $validated['categoryId'],
         ];
 
@@ -100,6 +104,7 @@ class AddProduct extends Component
                     ),
             ],
             'description' => ['nullable', 'string'],
+            'unitPrice' => ['nullable', 'numeric', 'min:0'],
         ];
     }
 
@@ -121,6 +126,9 @@ class AddProduct extends Component
             'name.unique' => 'Ya existe un producto con ese nombre en la categoría seleccionada.',
 
             'description.string' => 'La descripción debe ser una cadena de texto.',
+
+            'unitPrice.numeric' => 'El precio unitario debe ser un número válido.',
+            'unitPrice.min' => 'El precio unitario no puede ser negativo.',
         ];
     }
 }

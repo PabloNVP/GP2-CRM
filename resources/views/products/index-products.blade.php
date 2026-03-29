@@ -82,6 +82,7 @@ use App\Enums\StateProductEnum;
                         <tr>
                             <th scope="col" class="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-500">Nombre</th>
                             <th scope="col" class="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-500">Categoria</th>
+                            <th scope="col" class="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-500">Precio Unitario</th>
                             <th scope="col" class="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-500">Estado</th>
                             <th scope="col" class="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-500">Acciones</th>
                         </tr>
@@ -89,9 +90,14 @@ use App\Enums\StateProductEnum;
                     <tbody class="divide-y divide-gray-200 bg-white">                   
                         @foreach ($products as $product)
                             <tr>
-                                <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-900 text-center">{{ $product->name }}</td>
+                                <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-900 text-center">
+                                    {{ $product->name }}
+                                </td>
                                 <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-700 text-center">
                                     {{ $product->category?->name ?? '-' }}
+                                </td>
+                                <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-700 text-center">
+                                    $ {{ $product->unit_price ?? 0.00 }}
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4 text-sm text-center">
                                     <span class="state {{ $product->status === StateProductEnum::AVAILABLE ? 'active' :

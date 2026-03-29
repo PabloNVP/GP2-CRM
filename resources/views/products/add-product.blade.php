@@ -50,6 +50,21 @@
                 @enderror
             </div>
 
+            <div>
+                <label for="unitPrice" class="block text-sm font-medium text-gray-700">Precio unitario</label>
+                <input
+                    type="number"
+                    id="unitPrice"
+                    wire:model.defer="unitPrice"
+                    min="0"
+                    step="0.01"
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                />
+                @error('unitPrice')
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+
             <div class="md:col-span-2">
                 <label for="description" class="block text-sm font-medium text-gray-700">Descripción</label>
                 <textarea

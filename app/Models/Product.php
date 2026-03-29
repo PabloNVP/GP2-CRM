@@ -19,7 +19,7 @@ class Product extends Model
     protected $fillable = [
         'name',
         'description',
-        'stock',
+        'unit_price',
         'status',
         'category_id',
     ];
@@ -43,6 +43,7 @@ class Product extends Model
     protected function casts(): array
     {
         return [
+            'unit_price' => 'decimal:2',
             'status' => StateProductEnum::class,
         ];
     }

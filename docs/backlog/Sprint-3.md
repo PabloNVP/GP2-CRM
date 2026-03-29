@@ -23,7 +23,7 @@
 - Notificaciones flash de éxito/error.
 
 ### Backend - Laravel (Product + TipoCategoria)
-- **Modelo Eloquent** `Product` con campos: id, category_id, nombre, descripcion, estado, created_at, updated_at, deleted_at (SoftDeletes).
+- **Modelo Eloquent** `Product` con campos: id, category_id, nombre, descripcion, unit_price, estado, created_at, updated_at, deleted_at (SoftDeletes).
 - **Modelo Eloquent** `Category` con campos: id, nombre, descripcion, state, created_at, updated_at.
 - **Migración** de creación de tabla `products` en SQLite.
 - **Migración** de creación de tabla `category` en SQLite.
@@ -95,11 +95,12 @@
 |---|---|
 | Prioridad | Alta |
 | Estimación | 5 pts |
-| Criterios de aceptación | Campos: categoría (requerido), nombre (requerido), descripción (opcional). Al guardar exitosamente, redirige al listado con mensaje de confirmación. El nombre debe ser único por categoría. |
+| Criterios de aceptación | Campos: categoría (requerido), nombre (requerido), descripción (opcional), precio unitario (numérico, opcional, mínimo 0). Al guardar exitosamente, redirige al listado con mensaje de confirmación. El nombre debe ser único por categoría. |
 
 **Checklist de subtareas (SC-03)**
 - [x] Crear vista/formulario Livewire para alta de producto.
 - [x] Definir reglas de validación (requeridos y unicidad nombre por categoría).
+- [x] Validar `unit_price` como valor numérico mayor o igual a 0.
 - [x] Implementar guardado de producto en base de datos.
 - [x] Manejar errores de validación mostrando mensajes por campo.
 - [x] Redirigir al listado con mensaje flash de confirmación al crear.
@@ -153,7 +154,7 @@
 |---|---|
 | Prioridad | Alta |
 | Estimación | 2 pts |
-| Criterios de aceptación | La migración crea la tabla con todos los campos del modelo Product. Incluye FK a `categoria_producto`, índice compuesto para unicidad (`categoria_id`, `nombre`), índice en `estado` y soporte de SoftDeletes. Se puede ejecutar (`php artisan migrate`) y revertir (`php artisan migrate:rollback`) sin errores. |
+| Criterios de aceptación | La migración crea la tabla con todos los campos del modelo Product (incluyendo `unit_price`). Incluye FK a `categoria_producto`, índice compuesto para unicidad (`categoria_id`, `nombre`), índice en `estado` y soporte de SoftDeletes. Se puede ejecutar (`php artisan migrate`) y revertir (`php artisan migrate:rollback`) sin errores. |
 
 **Checklist de subtareas (SC-06)**
 - [x] Crear migración de tabla `products` con campos del modelo.

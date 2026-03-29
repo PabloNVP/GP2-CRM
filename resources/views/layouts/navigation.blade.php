@@ -22,6 +22,7 @@ new class extends Component
     $isProfile = request()->routeIs('profile');
     $isProducts = request()->routeIs('products.*');
     $isCategories = request()->routeIs('categories.*');
+    $isOrders = request()->routeIs('orders.*');
 
     $navItemBase = 'flex items-center gap-3 px-3 py-2 rounded-lg transition-colors';
     $navItemActive = 'bg-primary/10 text-primary font-semibold';
@@ -82,7 +83,12 @@ new class extends Component
     </div>
     @endif
 
-    <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+    <a
+        href="{{ route('orders.index') }}"
+        wire:navigate
+        class="{{ $navItemBase }} {{ $isOrders ? $navItemActive : $navItemIdle }}"
+        @if ($isOrders) aria-current="page" @endif
+    >
         <span class="material-icons">shopping_cart</span>
         <span>Pedidos</span>
     </a>
