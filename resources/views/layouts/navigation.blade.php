@@ -23,6 +23,7 @@ new class extends Component
     $isProducts = request()->routeIs('products.*');
     $isCategories = request()->routeIs('categories.*');
     $isOrders = request()->routeIs('orders.*');
+    $isInvoices = request()->routeIs('invoices.*');
 
     $navItemBase = 'flex items-center gap-3 px-3 py-2 rounded-lg transition-colors';
     $navItemActive = 'bg-primary/10 text-primary font-semibold';
@@ -91,6 +92,16 @@ new class extends Component
     >
         <span class="material-icons">shopping_cart</span>
         <span>Pedidos</span>
+    </a>
+
+    <a
+        href="{{ route('invoices.index') }}"
+        wire:navigate
+        class="{{ $navItemBase }} {{ $isInvoices ? $navItemActive : $navItemIdle }}"
+        @if ($isInvoices) aria-current="page" @endif
+    >
+        <span class="material-icons">receipt_long</span>
+        <span>Facturas</span>
     </a>
 
     <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">

@@ -2,11 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Enums\RoleEnum;
-use App\Enums\StateEnum;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,13 +14,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Administrador',
-            'email' => 'admin@crm.com',
-            'role' => RoleEnum::ADMIN,
-            'state' => StateEnum::ACTIVE,
+        $this->call([
+            UsersDemoSeeder::class,
+            CategoriesDemoSeeder::class,
+            ClientsDemoSeeder::class,
+            ProductsDemoSeeder::class,
         ]);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Livewire\Orders;
 
 use App\Enums\StateOrderEnum;
+use App\Livewire\Actions\Invoices\GenerateInvoice;
 use App\Livewire\Actions\Orders\CancelOrder;
 use App\Livewire\Actions\Orders\ChangeOrderState;
 use Livewire\Component;
@@ -78,6 +79,18 @@ class IndexOrders extends Component
         try {
             $changeOrderState($orderId, $targetState);
             session()->flash('message', 'Estado de la orden actualizado correctamente.');
+        } catch (ModelNotFoundException) {
+            session()->flash('error', 'La orden seleccionada no existe.');
+        } catch (DomainException $exception) {
+            session()->flash('error', $exception->getMessage());
+        }
+    }
+
+    public function generateInvoice(int $orderId, GenerateInvoice $generateInvoice): void
+    {
+        try {
+            $invoice = $generateInvoice($orderId);
+            session()->flash('message', 'Factura '.$invoice->number.' emitida correctamente.');
         } catch (ModelNotFoundException) {
             session()->flash('error', 'La orden seleccionada no existe.');
         } catch (DomainException $exception) {

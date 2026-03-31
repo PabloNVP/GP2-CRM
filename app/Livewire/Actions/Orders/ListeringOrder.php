@@ -15,7 +15,7 @@ final readonly class ListeringOrder
     ): iterable
     {
         $query = Order::query()
-            ->with('client')
+            ->with(['client', 'invoice'])
             ->orderByDesc('id');
 
         $search = trim($search);

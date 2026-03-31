@@ -1,3 +1,8 @@
+@php
+use App\Enums\StateOrderEnum;
+use App\Enums\StateInvoiceEnum;
+@endphp
+
 <div class="flex flex-col gap-6 w-full">
     <div class="flex items-center justify-between bg-white border-r border-slate-200 gap-4 flex-wrap mb-4 px-4 py-4 sm:px-6 lg:px-12">
         <div class="flex items-center gap-4">
@@ -14,6 +19,12 @@
     @if (session('message'))
         <div class="rounded-md border border-green-200 bg-green-50 px-6 py-4 mx-8 text-sm text-green-700">
             {{ session('message') }}
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="rounded-md border border-red-200 bg-red-50 px-6 py-4 mx-8 text-sm text-red-700">
+            {{ session('error') }}
         </div>
     @endif
 
@@ -38,6 +49,53 @@
             <p class="text-sm font-medium text-gray-900">$ {{ number_format((float) $order->total, 2, ',', '.') }}</p>
         </div>
     </div>
+
+    @if ($order->invoice || $order->state === StateOrderEnum::DELIVERED)
+        <div class="overflow-hidden rounded-lg border border-gray-200 bg-white mx-8">
+            <div class="px-6 py-4 flex flex-wrap items-center justify-between gap-3">
+                <div>
+                    <p class="text-xs uppercase tracking-wide text-gray-500">Facturacion</p>
+
+                    @if ($order->invoice)
+                        <div class="mt-2 flex flex-wrap items-center gap-2">
+                            <span class="text-sm font-medium text-gray-900">{{ $order->invoice->number }}</span>
+
+                            <span @class([
+                                'inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium',
+                                'bg-sky-100 text-sky-700' => $order->invoice->state === StateInvoiceEnum::ISSUED,
+                                'bg-emerald-100 text-emerald-700' => $order->invoice->state === StateInvoiceEnum::PAID,
+                                'bg-red-100 text-red-700' => $order->invoice->state === StateInvoiceEnum::VOIDED,
+                            ])>
+                                {{ $order->invoice->state->value }}
+                            </span>
+                        </div>
+                    @else
+                        <p class="mt-2 text-sm text-gray-600">Sin factura emitida.</p>
+                    @endif
+                </div>
+
+                <div class="flex flex-wrap items-center gap-2">
+                    @if ($order->invoice)
+                        <a
+                            href="{{ route('invoices.show', $order->invoice) }}"
+                            wire:navigate
+                            class="buttonAction edit"
+                        >
+                            Ver factura
+                        </a>
+                    @elseif ($order->state === StateOrderEnum::DELIVERED)
+                        <button
+                            type="button"
+                            wire:click="generateInvoice"
+                            class="buttonAction active"
+                        >
+                            Emitir factura
+                        </button>
+                    @endif
+                </div>
+            </div>
+        </div>
+    @endif
 
     <div class="overflow-hidden rounded-lg border border-gray-200 bg-white mx-8">
         <div class="overflow-x-auto">

@@ -1,5 +1,6 @@
 @php
 use App\Enums\StateOrderEnum;
+use App\Enums\StateInvoiceEnum;
 @endphp
 
 <div class="flex flex-col gap-6 w-full">
@@ -174,6 +175,35 @@ use App\Enums\StateOrderEnum;
                                         >
                                             Pasar a Entregado
                                         </button>
+                                    @endif
+
+                                    @if ($order->state === StateOrderEnum::DELIVERED && ! $order->invoice)
+                                        <button
+                                            type="button"
+                                            wire:click="generateInvoice({{ $order->id }})"
+                                            class="ml-2 buttonAction active"
+                                        >
+                                            Emitir factura
+                                        </button>
+                                    @endif
+
+                                    @if ($order->invoice)
+                                        <span @class([
+                                            'ml-2 inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium',
+                                            'bg-sky-100 text-sky-700' => $order->invoice->state === StateInvoiceEnum::ISSUED,
+                                            'bg-emerald-100 text-emerald-700' => $order->invoice->state === StateInvoiceEnum::PAID,
+                                            'bg-red-100 text-red-700' => $order->invoice->state === StateInvoiceEnum::VOIDED,
+                                        ])>
+                                            Factura {{ $order->invoice->number }} - {{ $order->invoice->state->value }}
+                                        </span>
+
+                                        <a
+                                            href="{{ route('invoices.show', $order->invoice) }}"
+                                            wire:navigate
+                                            class="ml-2 buttonAction edit"
+                                        >
+                                            Ver factura
+                                        </a>
                                     @endif
                                 </td>
                             </tr>

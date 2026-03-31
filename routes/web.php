@@ -8,6 +8,8 @@ use App\Livewire\Categories\IndexCategory;
 use App\Livewire\Orders\AddOrder as OrdersCreate;
 use App\Livewire\Orders\IndexOrders as OrdersIndex;
 use App\Livewire\Orders\ShowOrder as OrdersShow;
+use App\Livewire\Invoices\IndexInvoices as InvoicesIndex;
+use App\Livewire\Invoices\ShowInvoice as InvoicesShow;
 use App\Livewire\Products\AddProduct;
 use App\Livewire\Products\IndexProducts as IndexProduct;
 use Illuminate\Support\Facades\Route;
@@ -65,6 +67,12 @@ Route::middleware(['auth', 'verified', 'state'])->group(function () {
 
     Route::get('orders/{order}', OrdersShow::class)
         ->name('orders.show');
+
+    Route::get('invoices', InvoicesIndex::class)
+        ->name('invoices.index');
+
+    Route::get('invoices/{invoice}', InvoicesShow::class)
+        ->name('invoices.show');
 
     Route::view('profile', 'profile')
     //  ->middleware(['auth'])

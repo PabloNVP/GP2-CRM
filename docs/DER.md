@@ -214,14 +214,14 @@ Pedidos realizados por los clientes.
 
 Líneas de detalle de cada pedido (productos solicitados).
 
-| Atributo        | Tipo          | Restricciones               | Descripción                           |
-| --------------- | ------------- | --------------------------- | ------------------------------------- |
-| id              | INTEGER       | PK, auto-increment          | Identificador único                   |
-| order_id        | INTEGER       | FK → pedidos.id, NOT NULL   | Pedido al que pertenece               |
-| product_id      | INTEGER       | FK → productos.id, NOT NULL | Producto solicitado                   |
-| count           | INTEGER       | NOT NULL, default: 1        | Cantidad solicitada                   |
-| unit_price      | DECIMAL(10,2) | NOT NULL                    | Precio unitario al momento del pedido |
-| subtotal        | DECIMAL(10,2) | NOT NULL                    | cantidad × precio_unitario            |
+| Atributo   | Tipo          | Restricciones               | Descripción                           |
+| ---------- | ------------- | --------------------------- | ------------------------------------- |
+| id         | INTEGER       | PK, auto-increment          | Identificador único                   |
+| order_id   | INTEGER       | FK → pedidos.id, NOT NULL   | Pedido al que pertenece               |
+| product_id | INTEGER       | FK → productos.id, NOT NULL | Producto solicitado                   |
+| count      | INTEGER       | NOT NULL, default: 1        | Cantidad solicitada                   |
+| unit_price | DECIMAL(10,2) | NOT NULL                    | Precio unitario al momento del pedido |
+| subtotal   | DECIMAL(10,2) | NOT NULL                    | cantidad × precio_unitario            |
 
 ---
 
