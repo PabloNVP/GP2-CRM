@@ -12,6 +12,9 @@ use App\Livewire\Invoices\IndexInvoices as InvoicesIndex;
 use App\Livewire\Invoices\ShowInvoice as InvoicesShow;
 use App\Livewire\Products\AddProduct;
 use App\Livewire\Products\IndexProducts as IndexProduct;
+use App\Livewire\Tickets\AddTicket as TicketsCreate;
+use App\Livewire\Tickets\IndexTickets as TicketsIndex;
+use App\Livewire\Tickets\ShowTicket as TicketsShow;
 use Illuminate\Support\Facades\Route;
 
 # Si esta logieado, redirige a home, sino a welcome
@@ -73,6 +76,15 @@ Route::middleware(['auth', 'verified', 'state'])->group(function () {
 
     Route::get('invoices/{invoice}', InvoicesShow::class)
         ->name('invoices.show');
+
+    Route::get('tickets', TicketsIndex::class)
+        ->name('tickets.index');
+
+    Route::get('tickets/create', TicketsCreate::class)
+        ->name('tickets.create');
+
+    Route::get('tickets/{ticket}', TicketsShow::class)
+        ->name('tickets.show');
 
     Route::view('profile', 'profile')
     //  ->middleware(['auth'])

@@ -2,7 +2,7 @@
 
 ## Alcance
 
-Construir una aplicación web que permita gestionar y administrar el negocio de una empresa que desarrolla y comercializa software. El sistema centralizará la información de clientes, productos, pedidos y soporte técnico en una única plataforma.
+Construir una aplicación web que permita gestionar y administrar el negocio de una empresa que desarrolla y comercializa software. El sistema centralizará la información de clientes, productos, pedidos y soporte en una única plataforma.
 
 ## Módulos
 
@@ -10,7 +10,7 @@ Construir una aplicación web que permita gestionar y administrar el negocio de 
 | -------------------------- | ---------------------------------------------------------------- |
 | Gestión de Clientes        | ABM de clientes y su información de contacto.                    |
 | Gestión de Productos       | ABM de productos y sus tipos de categoría.                       |
-| Gestión de Soporte Técnico | Visualizar y responder tickets de soporte de los clientes.       |
+| Gestión de Soporte         | Visualizar y responder tickets de soporte de los clientes.       |
 | Gestión de Pedidos         | Visualizar los pedidos realizados por clientes y su facturación. |
 
 ## Arquitectura
@@ -47,7 +47,7 @@ Arquitectura monolítica basada en Laravel (MVC). Las vistas se renderizan del l
 | Rol                      | Descripción                                         |
 | ------------------------ | --------------------------------------------------- |
 | Operador                 | Gestiona clientes y realiza seguimiento de pedidos. |
-| Soporte Técnico          | Atiende y resuelve tickets de soporte.              |
+| Soporte                  | Atiende y resuelve tickets de soporte.              |
 | Comercial                | Gestiona productos y pedidos.                       |
 | Administrativo           | Gestión de facturación y reportes.                  |
 | Administrador de Sistema | Configuración y administración general del CRM.     |
@@ -97,7 +97,7 @@ La cantidad de errores debe ser lo más pequeña posible para no entorpecer las 
 - ABM completo de clientes con información de contacto.
 - ABM completo de productos y tipos de categoría.
 - Gestión de pedidos con seguimiento de estados.
-- Gestión de tickets de soporte técnico.
+- Gestión de tickets de soporte.
 - Consultas y filtros sobre todas las entidades.
 - Seguimiento eficiente del ciclo de vida de pedidos y tickets.
 

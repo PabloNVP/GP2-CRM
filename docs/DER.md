@@ -244,7 +244,7 @@ Facturación asociada a los pedidos completados.
 
 ### tickets
 
-Tickets de soporte técnico abiertos por los clientes.
+Tickets de soporte abiertos por los clientes.
 
 | Atributo    | Tipo         | Restricciones               | Descripción                                |
 | ----------- | ------------ | --------------------------- | ------------------------------------------ |
