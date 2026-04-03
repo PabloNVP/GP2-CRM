@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\RoleEnum;
 use App\Livewire\Actions\Logout;
 use Livewire\Volt\Component;
 
@@ -18,6 +19,7 @@ new class extends Component
 
 @php
     $isDashboard = request()->routeIs('dashboard');
+    $isAdminDashboard = request()->routeIs('admin.dashboard');
     $isClients = request()->routeIs('clients.*');
     $isProfile = request()->routeIs('profile');
     $isProducts = request()->routeIs('products.*');
@@ -25,6 +27,9 @@ new class extends Component
     $isOrders = request()->routeIs('orders.*');
     $isInvoices = request()->routeIs('invoices.*');
     $isTickets = request()->routeIs('tickets.*');
+    $isAdminUsers = request()->routeIs('admin.users.*');
+    $isAdminSection = $isDashboard || $isAdminDashboard || $isAdminUsers;
+    $canManageUsers = auth()->user()?->role === RoleEnum::ADMIN;
 
     $navItemBase = 'flex items-center gap-3 px-3 py-2 rounded-lg transition-colors';
     $navItemActive = 'bg-primary/10 text-primary font-semibold';
@@ -42,14 +47,29 @@ new class extends Component
 
 <nav class="flex-1 px-4 space-y-1">
     <a
-        href="{{ route('dashboard') }}"
+        href="{{ route('admin.dashboard') }}"
         wire:navigate
-        class="{{ $navItemBase }} {{ $isDashboard ? $navItemActive : $navItemIdle }}"
-        @if ($isDashboard) aria-current="page" @endif
+        class="{{ $navItemBase }} {{ $isAdminSection ? $navItemActive : $navItemIdle }}"
+        @if ($isAdminSection) aria-current="page" @endif
     >
         <span class="material-icons">dashboard</span>
         <span>Dashboard</span>
     </a>
+
+    @if ($canManageUsers && $isAdminSection)
+    <div class="ml-5 border-l border-slate-200 dark:border-slate-700 pl-3">
+        <a
+            href="{{ route('admin.users.index') }}"
+            wire:navigate
+            dusk="nav-admin-users"
+            class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors {{ $isAdminUsers ? 'bg-primary/10 text-primary font-semibold' : 'text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800' }}"
+            @if ($isAdminUsers) aria-current="page" @endif
+        >
+            <span class="material-icons text-[18px]">subdirectory_arrow_right</span>
+            <span>Usuarios</span>
+        </a>
+    </div>
+    @endif
 
     <a
         href="{{ route('clients.index') }}"

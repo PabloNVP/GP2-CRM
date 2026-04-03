@@ -10,6 +10,8 @@ use App\Livewire\Orders\IndexOrders as OrdersIndex;
 use App\Livewire\Orders\ShowOrder as OrdersShow;
 use App\Livewire\Invoices\IndexInvoices as InvoicesIndex;
 use App\Livewire\Invoices\ShowInvoice as InvoicesShow;
+use App\Livewire\Admin\Dashboard as AdminDashboard;
+use App\Livewire\Admin\IndexUsers as AdminUsersIndex;
 use App\Livewire\Products\AddProduct;
 use App\Livewire\Products\IndexProducts as IndexProduct;
 use App\Livewire\Tickets\AddTicket as TicketsCreate;
@@ -31,9 +33,18 @@ Route::get('/', function () {
 */
 
 Route::middleware(['auth', 'verified', 'state'])->group(function () {
-    Route::view('dashboard', 'dashboard')
-        ->middleware('role:administrador')
-        ->name('dashboard');
+    Route::middleware('role:administrador')->group(function () {
+        Route::get('dashboard', AdminDashboard::class)
+            ->name('dashboard');
+
+        Route::prefix('admin')->name('admin.')->group(function () {
+            Route::get('dashboard', AdminDashboard::class)
+                ->name('dashboard');
+
+            Route::get('users', AdminUsersIndex::class)
+                ->name('users.index');
+        });
+    });
 
     Route::get('products', IndexProduct::class)
         ->name('products.index');
