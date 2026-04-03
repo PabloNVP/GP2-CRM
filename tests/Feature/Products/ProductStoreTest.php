@@ -71,7 +71,6 @@ class ProductStoreTest extends TestCase
             'category_id' => $category->id,
             'name' => 'Suite ERP',
             'description' => 'Producto existente',
-            'stock' => 0,
             'status' => 'Disponible',
             'created_at' => now(),
             'updated_at' => now(),

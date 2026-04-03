@@ -14,12 +14,29 @@ class ProductsListingTest extends TestCase
 {
     use RefreshDatabase;
 
+    /** 
+     * Este test verifica que la página de listado de productos muestre un mensaje 
+     * de estado vacío cuando no hay productos registrados en la base de datos. Se asegura 
+     * de que el componente Livewire IndexProducts renderice correctamente el mensaje 
+     * "No hay productos registrados" para informar al usuario que no existen productos 
+     * disponibles. Este test es fundamental para garantizar una buena experiencia de usuario, 
+     * proporcionando retroalimentación clara cuando la lista de productos está vacía. 
+    */
     public function test_it_shows_empty_state_when_there_are_no_products(): void
     {
         Livewire::test(IndexProducts::class)
             ->assertSee('No hay productos registrados');
     }
 
+    /**
+     * Este test verifica que la paginación en la página de listado de productos funcione 
+     * correctamente, mostrando solo diez productos por página. Se crean once productos en 
+     * la base de datos y se prueba que el producto número 11 sea visible en la primera página, 
+     * mientras que el producto número 1 no lo sea. Luego, al navegar a la segunda página, 
+     * se verifica que el producto número 1 sea visible y el número 11 no lo sea. 
+     * Este test es esencial para asegurar que la paginación esté implementada correctamente 
+     * y que los usuarios puedan navegar por los productos sin problemas.
+     */
     public function test_it_paginates_products_by_ten_records(): void
     {
         $this->seedProducts(11);
@@ -32,6 +49,15 @@ class ProductsListingTest extends TestCase
             ->assertDontSee('Producto 11');
     }
 
+    /**
+     * Este test verifica que la página de listado de productos muestre las columnas requeridas
+     * correctamente. Se crea un producto con una categoría asociada y se prueba que el
+     * componente Livewire IndexProducts renderice las columnas "Nombre", "Categoria" y "Estado" 
+     * con los datos correctos del producto creado.
+     * Este test es crucial para garantizar que la información de los productos se muestre de 
+     * manera clara y organizada, proporcionando a los usuarios una experiencia de navegación 
+     * efectiva en la lista de productos.
+     */
     public function test_it_displays_required_columns_on_the_listing(): void
     {
         $category = Category::create([
@@ -43,7 +69,6 @@ class ProductsListingTest extends TestCase
             'name' => 'CRM Core',
             'description' => 'Descripcion de prueba',
             'category_id' => $category->id,
-            'stock' => 3,
             'status' => StateProductEnum::AVAILABLE->value,
             'created_at' => now(),
             'updated_at' => now(),
@@ -64,7 +89,6 @@ class ProductsListingTest extends TestCase
             [
                 'name' => 'CRM Pro',
                 'description' => 'Producto uno',
-                'stock' => 5,
                 'status' => StateProductEnum::AVAILABLE->value,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -73,7 +97,6 @@ class ProductsListingTest extends TestCase
             [
                 'name' => 'Help Desk',
                 'description' => 'Producto dos',
-                'stock' => 2,
                 'status' => StateProductEnum::OUT_OF_STOCK->value,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -93,7 +116,6 @@ class ProductsListingTest extends TestCase
             [
                 'name' => 'CRM Basic',
                 'description' => 'Producto uno',
-                'stock' => 5,
                 'status' => StateProductEnum::AVAILABLE->value,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -102,7 +124,6 @@ class ProductsListingTest extends TestCase
             [
                 'name' => 'Service Plus',
                 'description' => 'Producto dos',
-                'stock' => 2,
                 'status' => StateProductEnum::OUT_OF_STOCK->value,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -123,7 +144,6 @@ class ProductsListingTest extends TestCase
             [
                 'name' => 'Producto Disponible',
                 'description' => 'Producto uno',
-                'stock' => 5,
                 'status' => StateProductEnum::AVAILABLE->value,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -132,7 +152,6 @@ class ProductsListingTest extends TestCase
             [
                 'name' => 'Producto Sin Stock',
                 'description' => 'Producto dos',
-                'stock' => 0,
                 'status' => StateProductEnum::OUT_OF_STOCK->value,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -173,7 +192,6 @@ class ProductsListingTest extends TestCase
                 'name' => 'CRM Enterprise',
                 'description' => 'Producto uno',
                 'category_id' => $crmCategory->id,
-                'stock' => 5,
                 'status' => StateProductEnum::AVAILABLE->value,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -183,7 +201,6 @@ class ProductsListingTest extends TestCase
                 'name' => 'ERP Suite',
                 'description' => 'Producto dos',
                 'category_id' => $erpCategory->id,
-                'stock' => 0,
                 'status' => StateProductEnum::OUT_OF_STOCK->value,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -222,7 +239,6 @@ class ProductsListingTest extends TestCase
             [
                 'name' => 'Producto Disponible',
                 'description' => 'Producto activo',
-                'stock' => 5,
                 'status' => StateProductEnum::AVAILABLE->value,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -231,7 +247,6 @@ class ProductsListingTest extends TestCase
             [
                 'name' => 'Producto Sin Stock',
                 'description' => 'Producto inactivo',
-                'stock' => 0,
                 'status' => StateProductEnum::OUT_OF_STOCK->value,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -250,7 +265,6 @@ class ProductsListingTest extends TestCase
             [
                 'name' => 'Producto Disponible',
                 'description' => 'Producto activo',
-                'stock' => 5,
                 'status' => StateProductEnum::AVAILABLE->value,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -259,7 +273,6 @@ class ProductsListingTest extends TestCase
             [
                 'name' => 'Producto Sin Stock',
                 'description' => 'Producto inactivo',
-                'stock' => 0,
                 'status' => StateProductEnum::OUT_OF_STOCK->value,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -281,7 +294,6 @@ class ProductsListingTest extends TestCase
             $records[] = [
                 'name' => 'Producto '.str_pad((string) $i, 2, '0', STR_PAD_LEFT),
                 'description' => 'Descripcion del producto '.$i,
-                'stock' => $i,
                 'status' => StateProductEnum::AVAILABLE->value,
                 'created_at' => now(),
                 'updated_at' => now(),
