@@ -27,6 +27,22 @@ export default {
                 "xl": "0.75rem", 
                 "full": "9999px"
             },
+            keyframes: {
+                launch: {
+                    '0%, 100%': { transform: 'translateY(0)' },
+                    '25%': { transform: 'translateY(-2px)' },
+                    '50%': { transform: 'translateY(0)' },
+                    '75%': { transform: 'translateY(2px)' },
+                },
+                shake: {
+                  'from': { transform: 'rotate(-1deg)' },
+                  'to': { transform: 'rotate(1deg)' },
+                },
+            },
+            animation: {
+                launch: 'launch 2s ease-in infinite',
+                shake: 'shake 0.1s infinite alternate',
+            },
         },
     },
 
