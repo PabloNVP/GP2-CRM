@@ -2,8 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Livewire\Profile\IndexProfile;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Livewire\Livewire;
 use Livewire\Volt\Volt;
 use Tests\TestCase;
 
@@ -20,8 +22,26 @@ class ProfileTest extends TestCase
         $response
             ->assertOk()
             ->assertSeeVolt('profile.update-profile-information-form')
-            ->assertSeeVolt('profile.update-password-form')
-            ->assertSeeVolt('profile.delete-user-form');
+            ->assertDontSeeVolt('profile.update-password-form')
+            ->assertDontSeeVolt('profile.delete-user-form');
+    }
+
+    public function test_profile_tabs_are_switched_with_livewire_state(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user);
+
+        Livewire::test(IndexProfile::class)
+            ->assertSet('tab', 'info')
+            ->call('setTab', 'password')
+            ->assertSet('tab', 'password')
+            ->assertSee('Current Password')
+            ->call('setTab', 'delete')
+            ->assertSet('tab', 'delete')
+            ->assertSee('Are you sure you want to delete your account?')
+            ->call('setTab', 'not-valid')
+            ->assertSet('tab', 'delete');
     }
 
     public function test_profile_information_can_be_updated(): void
